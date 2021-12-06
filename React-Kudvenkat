@@ -1,0 +1,3513 @@
+What is React?
+   - React is an open source Javascript library used for creating dynamic and interactive user interface for mobile and web applications
+   - React JS effectively handles view(UI) layer of web and mobile applications
+   - React JS is flexible, for example react can be used in any existing web application to develop a new feature or the application and their UI can be developed using React 
+   - React only concerned with rendering data to DOM and creating react based appl usually requires the use of additional libraries for implementing things like state management and routing 
+   - Companies like Facebook, Paypal, uber, Instagram, PayTm are used to develop their UI 
+
+React History 
+   - React was created by Jordan Walke, a software engineer at Facebook, it was first deployed on Facebook's newsfeed in 2011 
+   - React native which enables native Android, iOS development with react was announced at Facebook conference in 2015 
+   - On April 2017, Facebook announced React Fiber, a new core algorithm of React Library for Builing UI. React Fiber was to become the foundation of any future improvements and future development of react library like any other library or framework
+   - 16.12 is current React version available 
+
+Prerequisite
+   - Knowledge on HTML and CSS
+   - Knowledge of JS and ES6(let and const, classes and aarrow function)
+   - Basic knowledge on node and npm
+
+React Benefits and Features
+   - Virtual DOM
+        As a developer we work with virtual DOM instead of working directly with real DOM
+   - Components
+        In React every appl UI which gets developed is brokem down into components and it is basic building block of appl UI. Component is combination of template using HTML, user interactivity using JS, applying styles using CSS 
+   - JSX(Javascript Syntax Extension)
+        React uses JSX for building templates instead of regular JS 
+   - Performance
+        This feature makesit much better than many other frameworks 
+   - One way data binding or unidirectional 
+   - React Native is an open source mobile appl framework created by Facebook. React native is for mobile appl and react is for websites 
+
+React installation and setup
+
+1. Install nodejs
+      - provides a runtime env to execute JS code outside browser
+      - NPM is used for managing and sharing the packages for either react or angular based projects 
+
+2. Install create-react-app tool which will be used for creating react appl
+   >npm install -g create-react-app
+
+3. Create react propject using
+      >create-react-app demo-project 
+
+4. To run the appl
+      >npm start 
+
+- We see in the browser comes from file called index.html 
+- In index.js we have ReactDOM.render() which calls App component on element called root 
+
+
+What is React Element?
+  - It is smallest building block of react apps, an element specifies what should be there in a UI. Element is plain object describing what to appear in DOM nodes 
+
+1. Create first element using JSX, in index.js remove all lines except first 2 lines
+   Now create an element of h1 type with some text
+
+const element=<h1>Welcome to React programming</h1>
+
+2. We should render this element in our browser DOM we need a container. When we create react project we have index.html which contains <div> with root element which will acts as container and render this element in that container. So in index.js
+
+ReactDOM.render(element,document.getElementById("root"))
+
+When we save and look browser, we can see text displayed
+
+3. Now we want to apply styles then we go index.css
+
+.testClass {
+   border: 3px solid red
+}
+
+4. Now we refer in index.js, so we import it
+      import './index.css'
+
+and apply style to h1 element using className 
+const element=<h1 className="testClass">Welcome to React programming</h1>
+
+In react element contains type and properties, so here h1 is type and className is property
+
+5. Now create another element
+
+const newelement=<h1 className="testClass">Understanding React Elements</h1>
+ReactDOM.render(newelement, document.getElementById("root"))
+
+We created two element and we try to render both elements in same container, then last created element will have precedence over the other elements which are created and this replaces all previous element which has rendered 
+
+When we save and look browser, we can see the second element is rendered
+
+6. Now we want to render both the element into single container
+
+const element=(
+  <div  className="testClass">
+     <h1>Welcome to React programming</h1>
+     <h1>Understanding React Elements</h1>
+  </div>
+);
+ReactDOM.render(element, document.getElementById("root"))
+
+So here <div> is parent element which we have 2 child element of type <h1>.
+
+The code we have written now using JSX is compiled into plain JS using Babel compiler, so we are doing extra process of doing the compilation into plain javascript
+
+7. In React without JSX is expecially convenient when we dont want to compile in build env. Now we create element without using JSX using React.createElement(), first we specify type of element, sceond specify properties to pass and third we can pass child elements
+
+const element=React.createElement("h1",null,"Welcome to React programming")
+ReactDOM.render(element, document.getElementById("root"))
+
+8. Now if we want to render multiple element 
+
+const element=React.createElement("div",{className:"testClass"},
+    React.createElement("h1",null,"Welcome to React programming"),
+    React.createElement("h1",null,"Understanding React elements"))
+
+ReactDOM.render(element, document.getElementById("root"))
+
+
+Introduction to React Components
+     - Components are the building block of a react appl components 
+     - Components allow us to split the user interface into independent and reusable pieces. Component is combination of template using HTML, user interactivity using JS, applying styles using CSS 
+     - Component is a Javascript class or function that accepts input as properties (ie) props and return react element that describes how a section of the UI should be created
+     - Component can be created as functional component or class component 
+
+1. Create DisplayEmployeeInfo.js (each starting letter is capital) with rfce create functional component, which takes employee object and returns a container which displays employee information
+    We want to display id value, so we would like to fetch that from employee object using curly braces
+
+function DisplayEmployeeInfo(employee) {
+    return (
+        <div>
+            <h1>Employee Details</h1>
+            <p>
+                <label>Employee Id: <b>{employee.Id}</b></label>
+            </p>
+            <p>
+                <label>Employee Name: <b>{employee.Name}</b></label>
+            </p>
+            <p>
+                <label>Employee Location: <b>{employee.Location}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{employee.Salary}</b></label>
+            </p>
+        </div>
+    )
+}
+
+export default DisplayEmployeeInfo
+
+So here employee is an object which contains properties like id,name,location,salary
+
+2. Include DisplayEmployeeInfo into App.js and import it
+      <DisplayEmployeeInfo Id="100" Name="senthil" Location="Chennai" Salary="20000"></DisplayEmployeeInfo>
+
+When we save and look browser, it display all employee info 
+
+3. Now we create Department.js with rfce which display department info
+
+function Department(deptInfo) {
+    return (
+        <div>
+            <p>
+                Department Name: {deptInfo.deptName}
+            </p>
+            <p>
+                Department Head: {deptInfo.headName}
+            </p>
+        </div>
+    )
+}
+
+export default Department
+
+4. Now pass Department component inside DisplayEmployeeInfo 
+
+ <Department deptName={employee.deptName} headName={employee.headName} />
+
+5. Now configure department details to DisplayEmployeeInfo  of App.js
+
+ <DisplayEmployeeInfo Id="100" Name="senthil" 
+             Location="Chennai" Salary="20000" deptName="Java" headName="Kumar"></DisplayEmployeeInfo>
+
+When we save and look browser, we can see both employee and department details 
+
+
+React Class Components
+   We want to create EmployeeComponent and return an element that displays employee details 
+
+1. Create Employee.js with rce create class component. To display employee details we have to access this properties which will be passed to Employee component using curly braces this.props contains the properties that where we defined by caller of this component 
+
+class Employee extends Component {
+    render() {
+        return (
+            <div>
+                <h1>Employee Details</h1>
+                <p>
+                    <label>Employee Id: <b>{this.props.Id}</b></label>
+                </p>
+                <p>
+                    <label>Employee Name: <b>{this.props.Name}</b></label>
+                </p>
+                <p>
+                    <label>Employee Location: <b>{this.props.Location}</b></label>
+                </p>
+                <p>
+                    <label>Employee Salary: <b>{this.props.Salary}</b></label>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default Employee
+
+2. Include Employee inside App.js and import it
+ <Employee Id="100" Name="senthil" Location="Chennai" Salary="20000"></Employee>
+
+When we save and look browser, we can see employee details 
+
+3. Create DepartmentInfo.js class 
+
+class DepartmentInfo extends Component {
+    render() {
+        return (
+            <div>
+                <h2>Department Details</h2>
+                <p>
+                    Department Name: <b>{this.props.deptName}</b>
+                </p>
+                <p>
+                    Department Head: <b>{this.props.headName}</b>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default DepartmentInfo
+
+4. Configure DepartmentInfo in Employee component 
+ <DepartmentInfo deptName={this.props.deptName} headName={this.props.headName} />
+
+5. Configure Employee.js inside App.js and import it
+ <Employee Id="100" Name="senthil" Location="Chennai" Salary="20000" 
+               deptName="Java" headName="Kumar"></Employee>
+When we save and look browser, we can see both employee and department details
+
+So components can accept properties and return customized react elements based on properties it receives. Whether the component is functional or class component it never modify its own properties 
+
+6. Now add constructor using rconst, now if we want to access props inside constructor we pass props as argument 
+
+constructor(props){
+   super(props);
+   console.log(this.props);
+   this.props.Name="Ram";
+}
+
+When we save and look browser, it will show an error because props we create it will always readonly 
+
+When class components?
+   1. Managing state of components
+   2. Adding lifecycle methods to components
+   3. Need to write logic for event handlers 
+
+Introduction to State in React 
+    We saw properties and those props are readonly, but appl UI are dynamic in nature and changes overtime, so any changes we do on component class members should get updated in browser
+
+1. Create Employee1.js with rce create class component, in JSX we add button and on click we call addEmployee()
+
+class Employee1 extends Component {
+    addEmployee = () =>{
+        alert("Add Employee method")
+    }
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Employee component</h2>
+                <p>
+                    <button onClick={this.addEmployee}>Add Employee</button>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default Employee1
+
+2. Include Employee1.js in App.js and import it
+      <Employee1 />
+We save and look brower, when we click button to show alertbox
+
+3. Now we want to track of how many times button is clicked and render in JSX 
+   React introduce concept called state which allows react component to change the output in response to various user actions 
+   State is similar to props but it is private and fully controlled by component class
+   State contains data specific to given component that will change overtime 
+
+4. In constructor we declare the state variable counter and when addEmployee method is called we need to increment the counter and updated in UI
+constructor(props) {
+        super(props)
+    
+        this.state = {
+             counter:0
+        }
+    }
+   React provide method called setState() for managing component state. setState() tells react that this component and its children should be rerendered with most updated state 
+   addEmployee = () =>{
+        //alert("Add Employee method")
+        this.setState({
+            counter: this.state.counter + 1
+        })
+    }
+We display the counter in JSX
+ <p>
+                    <label>Add employee button clicked <b>{this.state.counter}</b> times</label>
+                </p>
+
+When we save and look browser, we can see counter value increment when button is clicked 
+
+Example2:
+  We have textbox where user can enter message and we have a label that display number of characters entered by user 
+
+1. Create CountCharacters.js with rce create class component
+2. Create state variable called message with initial value as empty string 
+ constructor(props) {
+        super(props)
+    
+        this.state = {
+             message: ''
+        }
+    }
+    
+ onMessageChange(text){
+        this.setState({
+            message: 'Message has '+text.length+' number of Characters'
+        })
+    }
+3. In JSX we create text field, so on change we call onMessageChange to calculate the length
+render() {
+        return (
+            <div>
+                <h2>Welcome to Count Character component</h2>
+                <p>
+                    <label>Enter Message: <input type="text" onChange={e=>this.onMessageChange(e.target.value)} /></label>
+                </p>
+                <p>
+                    <label>{this.state.message}</label>
+                </p>
+            </div>
+        )
+    }
+4. Include CountCharacter in App.js and import it
+      <CountCharacter />
+When we save and look browser, we can see expected output
+
+
+Interaction between React components
+    UI we developed in react will have multiple components, so one component has to interact with other component as part of application 
+
+Example:
+   We develop Employee dashboard which contains employee info, project details, salary and department details. So we create separate components PersonalInfo, ProjectDetails, SalaryDetails and DepartmentDetails and put everything to create employee dashboard in Employee component 
+   We see how to pass data from parent to child using properties and child to parent component 
+
+1. Create Employee.js with rce inside ReactInteraction folder
+class Employee extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h1>Employee Details</h1>
+                <p>
+                    <label>Employee Id: <b>{this.props.Id}</b></label>
+                </p>
+                <p>
+                    <label>Employee Name: <b>{this.props.Name}</b></label>
+                </p>
+                <p>
+                    <label>Employee Location: <b>{this.props.Location}</b></label>
+                </p>
+                <p>
+                    <label>Employee Salary: <b>{this.props.Salary}</b></label>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default Employee
+
+2. Create Salary.js with rce create class component 
+
+class Salary extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h1>Salary Details</h1>
+                <p>
+                    <label>Basic Salary: <b>{this.props.basicSalary}</b></label>
+                </p>
+                <p>
+                    <label>HRA: <b>{this.props.hra}</b></label>
+                </p>
+                <p>
+                    <label>Allowance: <b>{this.props.specialAllowance}</b></label>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default Salary
+
+3. In order to call salary component, include salary component inside Employee component, we will get the values from properties which will passed to Employee component  
+
+<Salary basicSalary={this.props.basicSalary} hra={this.props.hra}
+                     specialAllowance={this.props.specialAllowance} />
+
+4.Now Employee component is parent and salary is child component and salary component receiving the data from Employee component through properties, so include Employee.js in App.js and import it
+
+ <Employee Id="100" Name="senthil" Location="Chennai" Salary="20000" 
+                   basicSalary="10000" hra="5000" specialAllowance="5000" />
+
+5. Now we want to user to change salary details like basic, hra and allowance and updated total salary should be display in employee component 
+   So we want to pass data from child to parent component, so we create state object in Salary component and initailize this object properties with the data from props parameter of constructor 
+
+ constructor(props) {
+        super(props)
+    
+        this.state = {
+            basic:this.props.basicSalary,
+            hra:this.props.hra,
+            sa:this.props.specialAllowance 
+        }
+    }
+  - Inside render(), we display salary details with input elements and assign default value by reading the value from state object and create button 
+<div>
+                <h1>Salary Details</h1>
+                <p>
+                    <label>Basic Salary: <input type="text" defaultValue={this.state.basic}/></label>
+                </p>
+                <p>
+                    <label>HRA: <input type="text" defaultValue={this.state.hra}/></label>
+                </p>
+                <p>
+                    <label>Allowance: <input type="text" defaultValue={this.state.sa}/></label>
+                </p>
+                <button>Update</button>
+            </div>
+
+When we save and look,we can see salary details are displayed in text field 
+
+6. Create updateSalary() on click of the button, 
+    <button onClick={this.updateSalary}>Update</button>
+
+- This function has to calculate total salary based on basic,hra and sa. In order to access input values in this function we can handle onChange event on every input element and change state data accordingly or we can use reference  to input field using 'ref' attribute 
+
+<input type="text" ref="basic"  defaultValue={this.state.basic}/>
+<input type="text" ref="hra" defaultValue={this.state.hra}/>
+<input type="text" ref="sa" defaultValue={this.state.sa}/>
+
+- Now we calculate total salary 
+ updateSalary = () => {
+          let salary=parseInt(this.refs.basic.value)+parseInt(this.refs.hra.value)+parseInt(this.refs.sa.value)
+    }
+  - Now we need to push salary from child component to parent component using callback properties. Now we push salary to new property called onSalaryChanged and use this property as callback 
+   this.props.onSalaryChanged(salary)
+
+7. Now goto place where we called Salary component and call this property onSalaryChanged and pass function getUpdatedSalary (ie) this getUpdatedSalary function should be called from Employee component when user click update button 
+  <Salary basicSalary={this.props.basicSalary} hra={this.props.hra}
+                     specialAllowance={this.props.specialAllowance}  onSalaryChanged={this.getUpdatedSalary}/>
+
+  - Now we define getUpdatedSalary function in Employee component which receive the salary from Salary component and store in state object. Now inside constructor we declare state variable as updatedSalary with null as initial value 
+constructor(props) {
+        super(props)
+    
+        this.state = {
+             updatedSalary:null
+        }
+    }
+
+   - getUpdatedSalary function receive salary from Salary component, upon receiving we update the state object using setState() and display in JSX 
+
+getUpdatedSalary=(salary) => {
+        this.setState({
+            updatedSalary:salary
+        })
+    }
+
+In JSX, we display the updatedSalary
+
+ <p>
+                    <label>Updated Employee Salary: <b>{this.state.updatedSalary}</b></label>
+                </p>
+When we save and look browser, we chnage the value and click Update button, it will display updated salary 
+   
+Component Communication using Context
+    In react appl data is passed from parent component to child component via properties. But this is difficult for certain type of property which is required by many components which are nested at different levels within an appl.
+    For example, when an employee is logged into organization portal appl we have an nesting of component which are making the user interface like App, Employee and Salary component
+    App component has an employee object and this object is needed by Employee as well as Salary component.
+    We will use context in react to pass the data between components placed in different nesting levels 
+
+1. Context provide a way to pass data through the component tree without having to pass properties from parent to child manually at every level
+2. Context provides a way to share values between components without having to explicitly pass a property to every level of the tree. 
+3. Context is used when data needs to be accessible by many components at different nesting levels 
+
+1. Create Employee.js, Salary.js, Department.js inside Context folder with rce react snippet
+
+class Employee extends Component {
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Employee Component</h2>
+            </div>
+        )
+    }
+}
+
+export default Employee
+
+class Salary extends Component {
+    render() {
+        return (
+            <div>
+                <h1>Welcome to Salary Component</h1>
+            </div>
+        )
+    }
+}
+
+export default Salary
+
+class Department extends Component {
+    render() {
+        return (
+            <div>
+               <h2>Welcome to Department Component</h2> 
+            </div>
+        )
+    }
+}
+
+export default Department
+
+2. We call Department Component inside Salary Component
+         <Department></Department>
+   We call Salary component inside Employee component
+         <Salary></Salary>
+
+3. Now call Employee component in App.js and import it
+       <Employee/>
+When we save and look,  it will display all 3 components
+
+4. Now in Employee.js, inside constructor we create state object called id,name,location,salary
+
+constructor(props) {
+        super(props)
+        this.state = {
+             id:100,
+             name:'Raj',
+             location:'Chennai',
+             salary:20000
+        }
+    }
+
+Now this state object should be passed from Employee to Salary component as well to department component. We dont want to pass this data as property from Employee to Salary component and again from salary to department component through properties 
+
+5. We create context object using createContext(). Now in Employee component we will store the state object data within context object and access this context object in Salary as well as Department component 
+   Every context object comes with provider which allow consuming component to subscribe to the context changes. Every context provider accepts value property using which we can pass the data to the descendants of Employee component 
+
+export const employeeContext=React.createContex()
+
+           <div>
+                <h2>Welcome to Employee Component</h2>
+                <p>
+                    <label>Employee Id: <b>:{this.state.id}</b></label>
+                </p>
+                <employeeContext.Provider value={this.state}>
+                    <Salary></Salary>
+                </employeeContext.Provider>
+            </div>
+
+6. Now in Salary component, we want to access context object and import  employeeContext
+     import {employeeContext} from './Employee'
+
+Now to access this context using
+     <employeeContext.Consumer>
+                    {user => {
+                        return <div>Employee Id: {user.id}</div>
+                    }
+                    }
+     </employeeContext.Consumer>
+
+7. Now in Department component, we want to access context object and import  employeeContext
+     import {employeeContext} from './Employee'
+
+Now to access this context using
+     <employeeContext.Consumer>
+                    {user => {
+                        return <div>Employee Id: {user.id}</div>
+                    }
+                    }
+     </employeeContext.Consumer>
+
+When we save and  look browser, we can see id in all component. If we change employee data in component it will reflected in other components 
+
+8. In Employee.js we create button 
+<p>
+   <button onClick={this.changeEmployeeData}>Update</button>
+</p>
+
+Now implement changeEmployeeData which is arrow function and we can change state object using setState() method 
+
+changeEmployeeData=() => {
+    this.setState({id:102})
+}
+
+When we save and look browser, we can click button we see updated id in all component 
+
+
+Iterating through Lists in React
+1. create list of employee objects in Employee2.js
+const employees = [
+  {id:101,name:'Ram',location:'Chennai',salary:20000},
+  {id:102,name:'Sam',location:'Mumbai',salary:30000},
+  {id:103,name:'Raj',location:'Delhi',salary:40000}
+];
+
+2. In DisplayEmployee.js, use rfce and create functional component, and this function will accept parameter which receive this list of employees as props and to iterate the list we use map() and display the elements from Employee component
+
+function Employee(props){
+    return (
+        <div>
+            <h1>Employee Details</h1>
+            <p>
+                <label>Employee Id: <b>{props.data.Id}</b></label>
+            </p>
+            <p>
+                <label>Employee Name: <b>{props.data.name}</b></label>
+            </p>
+            <p>
+                <label>Employee Location: <b>{props.data.location}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{props.data.salary}</b></label>
+            </p>
+        </div>
+    )
+}
+
+function DisplayEmployee(props) {
+    const empList=props.employeeList
+    const listElement=empList.map((emp) => 
+        <Employee key={emp.Id} data={emp}></Employee>
+    )
+    return (
+        <div>
+            {listElement}
+        </div>
+    )
+}
+
+export default DisplayEmployee
+
+export const employees = [
+    {Id:101,name:'Ram',location:'Chennai',salary:20000},
+    {Id:102,name:'Sam',location:'Mumbai',salary:30000},
+    {Id:103,name:'Raj',location:'Delhi',salary:40000}
+];
+
+3. Include DisplayEmployee.js in App.js and import it
+    <DisplayEmployee employeeList={employees}/>
+
+Lifting State Up in React
+    Consider we are doing online shopping using one of ecommerce website or mobile app and we landed into a page where it has 3 sections
+
+Product Information...
+Product Name: _______
+Enter Quantity:_______
+
+Address Information
+Address: __________
+
+Summary
+Product Name: Product-1
+Product Quantity: _________
+Address: XYZ
+
+Place Order Button
+
+It has 3 section, first is product information where user can select the product and enter product quantity, followed by entering address info and then we have summary section. When user enters product and address details that information is displayed in summary section and we can see text box available in summary section where user enters prodduct quantity (ie) before place order if u want to change product quantity then we dont user to navigate all the way to product information to change quantity, so there is a provision in summary section to change the quantity and user can proceed further to place the order 
+   So whenever we change quantity in summary section it has to sync update the quantity in Product information section too
+    
+Here we create Order component which is parent component and ProductInformation, Address and Summary component. So when we enter product quantity either in ProductInformation or in Summary component rather than maintaining local state in respective section we can create shared state in parent component and that state can be accessed and update in both of child component. This concept is called lifting state up in react. This way data can be stored in parent component and accessed by child component 
+
+1. Create Order.js with rce create class component
+
+class OrderComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default OrderComponent
+
+2. Create ProductInformationComponent.js with rce create class component 
+
+class ProductInformationComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default ProductInformationComponent
+
+3. Create AddressComponent.js with rce create class component
+class AddressComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default AddressComponent
+
+4. Create SummaryComponent.js with rce
+class SummaryComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default SummaryComponent
+
+5. In ProductInformationComponent.js we create drop down for product and textbox where user enter the quantity
+
+<div style={{border:'3px solid red'}}>
+                <h2>Product Information</h2>
+                <p>
+                    <label>Product Name:
+                        <select>
+                            <option value="Product-1">Product-1</option>
+                            <option value="Product-2">Product-2</option>
+                            <option value="Product-3">Product-3</option>
+                        </select>
+                    </label>
+                </p>
+                <p>
+                    <label>Enter Quantity: <input type="text" /></label>
+                </p>
+            </div>
+
+The product we select and quantity we provide should be display in SummaryComponent, if user make any change for quantity in SummaryComponent it should update in ProductInformation Component
+
+6. So we store quantity details in parent component (ie) OrderComponent so we lift state data up. The value of quantity input is comes from properties which are passed to ProductInformation component from OrderComponent and we call handleChange whenever there is change in input data 
+
+ <label>Enter Quantity: <input type="text" value={this.props.quantity}
+                              onChange={this.handleChange}/></label>
+
+   So handleChange is called whenever there is change in quantity input data and update this change to parent component by calling a property from parent component, assuming that parent component has property call onQuantityChange and to that property we pass changed value
+
+ handleChange= e => {
+        this.props.onQuantityChange(e.target.value)
+    }
+
+7. In AddressComponent,we create input field to input address and store address in parent component 
+
+<div style={{border:'3px solid red'}}>
+                <h2>Address Information</h2>
+                <p>
+                    <lable>Enter address: <textarea value={this.props.address}
+                          onChange={this.handleChange}/></lable>
+                </p>
+            </div>
+
+handleChange = e => {
+        this.props.onAddressChange(e.target.value)
+    }
+
+8. In SummaryComponent we need to access the quantity and address from parent component 
+
+<div style={{border:'3px solid red'}}>
+                <h2>Summary Information</h2>
+                <p>
+                    <label>Product Name: <b>Product-1</b> </label>
+                </p>
+                <p>
+                    <label>Enter Quantity: <input type="text" value={this.props.quantity}
+                              onChange={this.handleChange}/></label>
+                </p>
+                <p>
+                    <label>Address: <b>{this.props.address}</b></label>
+                </p>
+            </div>
+
+So whenever there is change in input we call handleChange() and updating the change back to parent component and we displayed address info
+
+handleChange= e => {
+        this.props.onQuantityChange(e.target.value)
+    }  
+
+9. In OrderComponent class we create state object which holds quantity and address
+
+ constructor(props) {
+        super(props)
+    
+        this.state = {
+             quantity:'',
+             address:''
+        }
+    }
+
+Next we implement 2 function, one function is called when there is change in quantity and another function is called when there is change in address, in both function we update the respective detail to state object using setState()
+
+orderInfoChanged = val => {
+        this.setState({
+            quantity:val
+        })
+    }
+
+    addressChange = val => {
+        this.setState({
+            address:val
+        })
+    }
+
+Inside render() we call three components created,for ProductInformationComponent we pass quantity and onQuantityChange 
+
+<ProductInformationComponent quantity={this.state.quantity} onQuantityChange={this.orderInfoChanged} />
+
+For AddressComponent we pass 2 property (ie) address and onAddressChnage 
+
+<AddressComponent address={this.state.address} onAddressChange={this.addressChange} />
+
+For Summary component we pass quantity, address and onQuanityChange 
+
+<SummaryComponent quantity={this.state.quantity} address={this.state.address} 
+                        onQuantityChange={this.orderInfoChanged} />
+
+10. Include OrderComponent in App.js and import it
+     <OrderComponent />
+
+When we save and look browser, when we enter quantity in Product info section it updates in summary section and vice versa 
+
+
+Error Boundaries in React 
+   Previously we create Product Dashboard  which have OrderComponent, ProductInformation component,Address and Summary component
+   Now our new requirment is that in address section we need to display users preferred address list which user has entered previously in website 
+
+1. Create UserPreferredList.js which is resposible to display the user preferred address list 
+
+class UserPreferredList extends Component {
+constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Your Existing Address</h2>
+                <p>
+                    Office<br/>
+                    Sholinganallur, Chennai
+                </p>
+            </div>
+        )
+    }
+}
+
+export default UserPreferredList
+
+2. Now we call UserPreferredList component in AddressComponent
+
+ <div style={{border:'3px solid red'}}>
+                <h2>Address Information</h2>
+                <p>
+                    <lable>Enter address: <textarea value={this.props.address}
+                          onChange={this.handleChange}/></lable>
+                </p>
+                <UserPreferredList />
+            </div>
+
+When we save and look browser, we can see the preferred address list after Address component.
+   Now assuming that we are having some problems to load the UserPreferredList and that code is throwing us an error then our appl should show us message 
+
+
+3. When we try to generate an error in UserPreferredList, then it will display the error message 
+
+render() {
+        throw new Error("Not able to load address list")
+        return (
+            <div>
+                <h2>Your Existing Address</h2>
+                <p>
+                    Office<br/>
+                    Sholinganallur, Chennai
+                </p>
+            </div>
+        )
+    }
+When we save and look browser, it will display the error page
+
+4. If we are not able to load that address list we should continue allowing users to place the order by entering the address in address text box rather than displaying this error, this is where we use of error boundaries in react 
+    Error boundaries are react component that catch Javascript errors which occur anywhere in their child component tree, lock those errors and display a fallback UI instead of showing the component tree that crashed 
+   A class component becomes an error boundary if it defines both of lifecycle method called static getDerivedStateFromError() used to render fallback UI after an error has thrown and componentDidCatch() used to log error information 
+
+5. Create CustomErrorBoundary.js with rce create class component and create state object called hasError using which we track whether there is any error or not and initilize to null
+
+class CustomErrorBoundary extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             hasError:null
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default CustomErrorBoundary
+
+6. In order to make class as an error boundary we need to implement either or both lifecycle methods
+    getDerivedStateFromError which receives error object as a parameter, we use this method to update the state object so that the next  render will display fallback UI instead of displaying the error 
+   static getDerivedStateFromError(error) {
+        return {hasError:true}
+    }
+  Next componentDidCatch used to log details either to console or any other service. This method accepts 2 arguments error gives us error info and errorInfo object gives component stack (ie) parent component details from where the call is made to respective component 
+    componentDidCatch(error,errorInfo){
+        console.log(error)
+        console.log(errorInfo)
+    }
+
+Inside render() we will check whether we have error or not using our state object, if there is error it display error message, if no error we return the children
+
+render() {
+        if(this.state.hasError) {
+        return (
+            <div>
+                <h2>We are having some problem to load your preference now</h2>
+            </div>
+        );
+        }
+        else {
+            return this.props.children
+        }
+    }
+
+7. Now we call UserPreferredList component within scope of CustomErrorBoundary 
+               <CustomErrorBoundary>
+                   <UserPreferredList />
+               </CustomErrorBoundary>
+
+When we save and look browser, we can see the error in Addresscomponent using custom error boundary with custom message. But when we comment error in UserPreferredList we can see our address will be displayed, so if we have error we display custom error message and no error we are showing address list 
+
+Notes:
+1. Error boundary dont catch errors inside event handlers (ie) onClick, onChange
+2. Error boundary dont catch errors also for any async code or server side rendering code or errors thrown in error boundary class itself 
+
+Fragments in React
+    We have seen components in React and how do we return elements from component but every component we have created in React we have render only one element
+   You can see in each component we have render one element called <div> tag 
+
+1.In OrderComponent we have created outer <div> tag, just because OrderComponent wants to return multiple elements from render() like ProductInformationComponent, AddressComponent, SummaryComponent. If we try to place multiple elements from OrderComponent without placing them inside <div> tag, then react will shown an error 
+   So in OrderComponent, if we remove <div> tag of render() then react will show an error 
+
+2. In CustomErrorBoundary we want to render 2 <div> container, one <div> container returns content of error object and other <div> container returns content of errorInfo object 
+<div>
+                <h2>We are having some problem to load your preference now</h2>
+            </div>
+             <div>
+                <h2>We are having some problem to load your preference now</h2>
+            </div>
+It will be showing error and we can solve this error by placing one parent <div> tag and place this 2 <div> tag inside parent <div>, but keep adding two many <div> tag makes DOM heavy and that will have impact on the performance and also introduce UI issue like styling and alignment
+   In order to avoid adding new DOM element unnecessary, react introduces concept called Fragment using which we can return multiple element from one component wihtout creating additional DOM nodes 
+
+<React.Fragment>
+                    <div>
+                        <h2>We are having some problem to load your preference now</h2>
+                    </div>
+                    <div>
+                        <h2>We are having some problem to load your preference now</h2>
+                    </div>
+                </React.Fragment>
+When we save and look browser, we can see both error messages 
+
+3. In OrderComponent, we can use React.Fragment instead of <div> container. React provides a shortcut for Fragment as empty tags (ie) <> </>
+
+ <>
+                <h2>Product Dashboard</h2>
+                <ProductInformationComponent quantity={this.state.quantity} onQuantityChange={this.orderInfoChanged} />
+                <AddressComponent address={this.state.address} onAddressChange={this.addressChange} />
+                <SummaryComponent quantity={this.state.quantity} address={this.state.address} 
+                        onQuantityChange={this.orderInfoChanged} />
+            </>
+
+
+Refs in React 
+    Refs provide a way to access DOM node or react elements that created in render()
+
+Example1:
+   We have textbox and we have button to increment a value and another button to decrement the value 
+
+1. Create QuantityIncrement.js with rce create class component, inside JSX we create input element for quantity and button to increment the value
+   Create state object called quantity and initialize to 0
+   Implement incrementQuantity method which is arrow function and increment quantity using setState(), now assign the quantity value to input element
+
+class QuantityIncrement extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             quantity:0
+        }
+    }
+    
+    incrementQuantity = () => {
+        this.setState({
+            quantity: this.state.quantity + 1
+        })
+    }
+    render() {
+        return (
+            <div>
+                <p>
+                    <label>Enter Quantity: <input type="text" value={this.state.quantity} /></label>
+                    <button onClick={this.incrementQuantity}>+</button>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default QuantityIncrement
+
+
+2. Include QuantityIncrement in App.js and import it
+       <QuantityIncrement />
+When we save and look browser, we can see input field with button and when we click quantity value increments which has 2 problem
+  - For every button click, the component is render again resulting we get alert message, but we dont want our component to render again for every button click 
+  - Now our textbox becomes readonly, if we change in textbox we cant do it, because textbox becomes readonly 
+
+This is where we use refs in react
+
+3. We will create reference object using createRef method and assign that object to input element, reference are created when a component is rendered and defined either in componentDidMount or in constructor 
+ constructor(props) {
+        super(props)
+    
+        this.state = {
+             quantity:0
+        }
+        this.quantityRef=React.createRef()
+    }
+
+4. Now we attach reference object to input element using ref attribute and we remove value, state object and setState()
+<label>Enter Quantity: <input type="text" ref={this.quantityRef} /></label>
+
+Now on button click we access ref instance which we created and  increment the value. When ref is passed to an element that element becomes accessible using an attribute called current 
+
+  incrementQuantity = () => {
+         alert('Text message')
+        this.quantityRef.current.value++ 
+    }
+
+When we save and look browser, we can see alert message is displayed for first time and now we can increment the value but u cant see the alert message displayed and in text box also we can enter the value 
+
+Example 2:
+   We are going to implement login functionality 
+
+1. Create LoginComponent.js with rce create class component and inside JSX create 2 input field and button 
+
+class LoginComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Login Screen</h2>
+                <p>
+                    <label>Username: <input type="text"/></label>
+                </p>
+                <p>
+                    <label>Password: <input type="text"/></label>
+                </p>
+                <button>Login</button>
+            </div>
+        )
+    }
+}
+
+export default LoginComponent
+
+2. Include LoginComponent in App.js and import it
+      <LoginComponent />
+When we save and look browser, we can see login screen but u cant see focus on any of element.
+
+3. Now we need to add focus to username textbox when the page loads. We create ref for username 
+constructor(props) {
+        super(props)
+        this.usernameRef=React.createRef()
+    }
+
+4. We assign this reference to input element using ref attribute 
+
+<p>
+                    <label>Username: <input type="text" ref={this.usernameRef}/></label>
+                </p>
+
+5. Using this reference we created we can set focus to this username input element either in constructor or in lifecycle method called componentDidMount 
+
+componentDidMount(){
+        this.usernameRef.current.focus()
+    }
+When we save and look browser, we can see by default focus goes to username textbox 
+
+Example 3:
+   We have seen how to create reference object and how do we assign the reference object to HTML element, but element can be either HTML element or react element as well (ie) we can pass reference to react elements as well 
+    Consider we developing an appl for elevator manufacturing company, lets say we want to develop 2 component as part of appl development, one is elevator component and other is summary component 
+
+1. Create ElevatorComponent.js with rce create class component. Inside constructor we created a reference object using creatRef().
+   Inside JSX we have multiple input element using which we enter elevator name, speed and load. The reference object we created is assigned to elevator name. This elevator component is called another SummaryComponent and this SummaryComponent shows the details of elevator name, speed and load 
+
+class ElevatorComponent extends Component {
+    constructor(props) {
+        super(props)
+        this.elevatorRef=React.createRef()
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Elevator component</h2>
+                <p>
+                    <label>Elevator name: <input type="text" ref={this.elevatorRef}/></label>
+                </p>
+                <p>
+                    <label>Elevator Speed: <input type="text"/></label>
+                </p>
+                <p>
+                    <label>Elevator Load: <input type="text"/></label>
+                </p>
+                  <SummaryComponent/>
+            </div>
+            
+        )
+    }
+}
+
+export default ElevatorComponent
+
+2. Create SummaryComponent.js with rce create class component
+
+class SummaryComponent extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Summary</h2>
+                <p>
+                    <label>Elevator name: <b>Name-1</b></label>
+                </p>
+                <p>
+                    <label>Elevator Speed: <b>10m/s</b></label>
+                </p>
+                <p>
+                    <label>Elevator Load: <b>500kg</b></label>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default SummaryComponent
+
+3. Include ElevatorComponent.js inside App.js and import it
+      <ElevatorComponent />
+When we save and look browser, we can see contents from both elevator and summary component
+
+4. Now we have requirement that when we click on given field in summary detail section then focus should go back to respective input element of ElevatorComponent, so we have to access reference of elevator component input elements in summary component (ie) we have to pass there reference from parent component to child component, this concept is called forwarding refs using which we can reference from a component to one of its children (ie) from elevator to summary component
+   In ElevatorComponent, where we called SummaryComponent we add new property called innerRef and to this element we pass elevator name input element reference 
+    <SummaryComponent innerRef={this.elevatorRef} />
+
+5. Now we go to SummaryComponent where we display elevator name and trigger onClick event and call focusInput function
+    <p onClick={this.focusInput}>
+           <label>Elevator name: <b>Name-1</b></label>
+    </p>
+Now create focusInput() which is arrow function, within the function we access the reference which we have passed through the properties 
+   focusInput = () => {
+        this.props.innerRef.current.focus();
+    }
+When we save and look browser, now when we click on <p> tag we can see elevator name input element got the focus 
+
+Example 4: To handle ref in Functional component
+1. Create TestComponent.js with rfce create functional component
+   Inside JSX we have <div> container in which have textbox followed by button, when we click button we call handleClick function 
+
+function TestComponent() {
+    
+    function handleClick(){
+
+    }
+    return (
+        <div>
+            <input type="text"/>
+            <button onClick={handleClick}>Focus the text Input</button>
+        </div>
+    )
+}
+
+export default TestComponent
+
+2. Within component we create 'testRef' variable and initialize to null 
+    let testRef=null
+Now we call focus() on that variable inside handleClick function
+     function handleClick(){
+         testRef.focus()
+    }
+Now we call ref to our input element which is arrow function we assign this input to variable we created 
+    <input type="text" ref={e=>testRef=e}/>
+
+3. Now we include TestComponent inside App.js and import it
+        <TestComponent />
+When we save and look browser, when we click on button the focus will go to input element 
+
+We can use ref attribute inside a functional component aslong as we refer to HTML element or class component, ref cannot be attached to functional component because it does not have instances so we cannot reference them, so if we want to use ref in function component we can use forward ref concept or convert functional component to class component
+
+Example 5: We use forward ref in react to assign reference to a functional component 
+
+1. In ElevatorComponent.js we create a functional component using forwardRef() which is arrow function and accepts two parameter, first parameter holds list of properties which will be passed to this component and second parameter will be holding the reference which is passed. It return a button element from this component and click on button we call testClick() and within this function we call focus()
+
+const DemoComponent = React.forwardRef((props,ref) => {
+    function testClick() {
+        ref.current.focus()
+    }
+    return(
+        <button onClick={testClick}>Click</button>
+    )
+})
+
+2. Inside ElevatorComponent, now we call DemoComponent and to this component and we pass elevator name reference 
+    <DemoComponent ref={this.elevatorRef} />
+
+3. Now we call ElevatorComponent in App.js
+       <ElevatorComponent />
+When we save and look browser, we can see all component and when we click button then focus will go to elevator name input field 
+  So we have DemoComponent which is functional component and to this component we are able to pass the reference of element, we can do this because DemoComponent is created by forwardRef 
+
+Higher Order Component is React
+    - used for reusing component logic, HOC is function that takes a component as input and returns new component
+    Consider we are developing admin dashborad which will show user data,post data  in form of reports 
+
+1. Create UsersRecords.js with rce create class components. We fetch the data from '/users' using axios and display those records in form of table
+
+class UsersRecords extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            users:[]
+        }
+    }
+    
+    componentDidMount() {
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    users:result.data
+                }) 
+                console.log(this.state.users)
+            } 
+           
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+    render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
+
+export default UsersRecords
+
+2. Create PostRecords.js with rce create class component. We fetch the data from '/posts' using axios and display those records in form of table
+
+import React, { Component } from 'react'
+import axios from 'axios'
+
+
+
+class PostRecords extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            posts:[]
+        }
+    }
+    
+    componentDidMount() {
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+        .then(
+            (result) => {
+                this.setState({
+                    posts:result.data
+                }) 
+                console.log(this.state.posts)
+            } 
+           
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+    render() {
+        return (
+            <div>
+                <h2>Post Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.posts.map(post => 
+                           <tr key={post.id}>
+                                <td>{post.id}</td>
+                                <td>{post.title}</td>
+                                <td>{post.body}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
+
+export default PostRecords
+
+3. Create Dashboard.js with rce create class component, now this will display both the components
+
+   <React.Fragment>
+                <UsersRecords/>
+                <PostRecords/>
+            </React.Fragment>
+
+4. Now include Dashboard.js inside App.js and import it
+      <Dashboard />
+When we save and look browser, we can see both component sending API request and getting response, so both component doing the same process but we return the code separately for both the components. So we can reuse the code instead of writing again this is where HOC comes into picture 
+
+5. In Dashboard.js we create a function reportsHOC(), this function accepts two parameters, first is input component which we pass to this function and second parameter is input object using which we will pass info like API url, how many columns we want in reports and any other component specific data. We know HOC takes component as an input and returns a new component 
+  Create new class and inside add constructor and create state object with data as empty array, columns where we get value for column from inputData object, header where we get header info from inputData object.
+  function reportsHOC(InputComponent,inputData){
+    return class extends React.Component {
+        constructor(props) {
+            super(props)
+        
+            this.state = {
+                 data:[],
+                 columns: inputData.columns,
+                 header:inputData.header
+            }
+        }
+        
+    }
+}
+
+Next we create componentDidMount() to write logic to send api request 
+ componentDidMount(){
+            axios.get(inputData.url)
+            .then(
+                (result) => {
+                    this.setState({
+                       data:result.data
+                    }) 
+                    console.log(this.state.data)
+                } 
+               
+            )
+            .catch(error => console.error("Myerror"+error))
+        }
+Next we write render(),inside it we call another component which is responsible for displaying the data and to that component we will pass the state object data through the properties 
+
+render(){
+            return(
+                <Data data={this.state} />
+            )
+        }
+
+6. Now we create DataComponent with rce create class component inside DashBoard, inside JSX we display header data and display data in table format
+
+class DataComponent extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    render() {
+        return (
+            <div>
+               <h2>{this.props.data.header}</h2> 
+               <table>
+                   <tr>
+                       {this.props.data.columns.map(c=>{
+                           <tr>{c}</tr>
+                       })}
+                   </tr>
+                   <tbody>
+                       {this.props.data.data.map(r=>{
+                           <tr hey={r.id}>
+                               {this.props.data.columns.map(c=>{
+                                   <td>{r[c]}</td>
+                               })}
+                           </tr>
+                       })}
+                   </tbody>
+               </table>
+            </div>
+        )
+    }
+}
+
+export default DataComponent
+
+7. Create Reports.js inside DashBoard with rce create class component
+class Reports extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+
+export default Reports
+
+8. Inside Reports.js, we create all report component that are required for the project
+   First we create UserReports and call reportsHOC() which takes Reports as inputcomponent and inputData as url, column and headers
+
+const UserReports=reportsHOC(Reports,{url:'https://jsonplaceholder.typicode.com/users',
+columns:['id','name','username','email'],header:'User data'})
+
+const PostReports=reportsHOC(Reports,{url:'https://jsonplaceholder.typicode.com/posts',
+columns:['id','title','body'],header:'Post data'})
+
+
+Portals in React 
+    Portals provide a way to render children in DOM node that exists outside DOM hierarchy of the parent component. Normally when we return an element in component render method it is mounted in DOM as child of nearest parent node, however sometimes its useful to insert child in different location in DOM
+
+1. In Portals folder, we create UserReports.js which fetch user information from API 
+
+class UsersRecords extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            users:[] 
+        }
+    }
+    
+    componentDidMount(){
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    users:result.data
+                }) 
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+    render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
+
+export default UserReports
+
+From render() we are returning <div> container which contains h2 and table element, now the contents of this <div> is placed inside div whose id is 'root'
+
+2. Include UserReports in App.js and import it
+      <UserReports />
+When we save and look browser,we can see list of users and when we inspect the element we can see entire <div> is present inside another <div> of id=root
+
+3. Now we have a requirement that we have to place edit button against each row of table and when we click on edit button we want employee data to be display in modal popup and modal popup contents should be display in center of browser (ie) we need to render an element outside of its parent document this is where we use portals 
+  Create UserModal.js which will display user details in edit mode, this component will receive user object through property
+
+class UserModal extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Employee Details</h2>
+                <p>
+                    <label>User Id: <input type="text" value={this.props.users.id} /></label>
+                </p>
+                <p>
+                    <label>Name: <input type="text" value={this.props.users.name} /></label>
+                </p>
+                <p>
+                    <label>User Name: <input type="text" value={this.props.users.username} /></label>
+                </p>
+                <p>
+                    <label>Email: <input type="text" value={this.props.users.email} /></label>
+                </p>
+                <input type="submit" value="Sava"/>
+            </div>
+        )
+    }
+}
+
+export default UserModal
+
+We are binding the data to respective input elements by fetching the value from employee object which is passed through properties
+
+4. In UserReports.js, inside JSX we add an action and edit button
+
+render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                                <td><button onClick={this.editEmployee}>Edit</button></td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+            </div>
+        )
+
+5. Now add new property to state object using which we will track show and hide of modal 
+
+  constructor(props) {
+        super(props)
+    
+        this.state = {
+            users:[],
+            showModal:false
+        }
+    }
+
+6. Now we implement editEmployee() function, so whenever user click edit button we make showModal property to true and use same function to close the modal too
+
+editEmployee = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+
+Now goto edit button, assuming that we create new component called Modal and add a property called 'open' and pass showModal, then we add another property called 'close' and we pass editEmployee function 
+   Within this Modal component we pass UserModal component and pass user data to UserModal component as property 
+
+<td>
+        <button onClick={this.editEmployee}>Edit</button>
+         <Modal open={this.state.showModal} close={this.editEmployee}>
+                 <UserModal users={user} />
+         </Modal>
+</td>
+
+7. Now we create Modal.js with rce create class component, within render() we will check the value of open property passed to this component and if it is true then we will display the children of this component in <div>, but <div> container should render outside of parent component, so here we use concept of portal using ReactDOM.createPortal() and we pass content to be displayed and the container 
+
+class Modal extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            this.props.open?ReactDOM.createPortal(
+            <div className="modal">
+                {this.props.children}
+            </div>,document.body):null
+        )
+    }
+}
+
+export default Modal
+
+8. Now we create style for modal class in index.html
+
+<style>
+  .modal {
+       background-color: whitesmoke;
+       position: fixed;
+       height: 50%;
+       width: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       top: 25;
+       left: 25%;
+    }
+</style>
+ 
+When we save and look browser,we can see user details and when we click edit button, u can see modal will be displayed outside of parent div because we create portal and we render the contents of UserModal class inside this portal and render within document body 
+
+9. Now we add close button within modal using which we can close the modal 
+            <div className="modal">
+              <button onClick={this.props.close}>X</button>
+                {this.props.children}
+            </div>,document.body):null
+Now we implement style for this button in index.html
+    .modal button {
+         position: absolute;
+         top: 4px;
+         right: 3px;
+         font-size: 1rem;
+         font-weight: bold;
+      }
+When we save and look browser, when we click edit button, a modal will show with close button and when we click it disappears.
+   So whenever the contents of certain components needs to render outside of current container like showing tooltip or opening new window then we go for portals concept 
+ 
+   
+Profiler in React
+    Profiler measures how often a react application renders and what is the cost of rendering, its purpose is to help identify parts of an appl that are slow so that we can work on optimising them 
+   Consider we are developing reports dashboard component for one of leading bank in market, this report component comprises of multiple components new accounts reports, loan repayment reports, loan defaulters reports and within this reports dashboard component we perform various operations on these reports like entering some inputs to generate the reports or triggering few events 
+   Assuming that we have developed all these components and our reports dashboard component is ready, for some reason the reports dashboard component is not responsive after user performs various operations within this component. Now we have to identify the root cause for this and fix the problem.
+   We have discussed that our component gets rerendered for various operations we perform on these components, now we have to identify which component is getting rerendered how many times and the amount of time it is taking for rendering the tree, so that it will help to fix the problem this where we will make use of profilers in react 
+
+1. Create NewAccountReport.js with rce create class component and create state object which has 2 property FromDate and ToDate which is initialize to empty string
+   We have handleChange() in which we are updating the respective input details to our state object
+   Inside render method, we have 2 input element for fromdate and todate and button to generate reports based on fromdate and todate entires
+
+class NewAccountReports extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             FromDate:'',
+             ToDate:''
+        }
+    }
+    
+    handleChange = (e) => {
+        let name=e.target.name
+        let value=e.target.value
+        this.setState({
+            [name]:value
+        })
+    }
+    render() {
+        return (
+            <div>
+                <h2>Welcome to New Account Report Component</h2>
+                <p>
+                    <label>From Date: <input type="text" name="FromDate" onChange={this.handleChange}
+                    value={this.state.FromDate} /></label>
+                </p>
+                <p>
+                    <label>To Date: <input type="text" name="ToDate" onChange={this.handleChange}
+                    value={this.state.ToDate} /></label>
+                </p>
+                <input type="submit" value="Generate" />
+            </div>
+        )
+    }
+}
+
+export default NewAccountReports
+
+2. Create LoansRepaymentReports.js with rce create class component 
+
+class LoansRepaymentReports extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Loans Repayment Report Component</h2>  
+            </div>
+        )
+    }
+}
+
+export default LoansRepaymentReports
+
+3. Create ReportsDashboard.js with rce create class component and inside JSX we call NewAccountReport and LoansRepaymentReports component
+
+class ReportsDashboard extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <React.Fragment>
+                <h2>Welcome to Reports Dashboard</h2>
+                <NewAccountReports />
+                <LoansRepaymentReports />
+            </React.Fragment>
+        )
+    }
+}
+
+export default ReportsDashboard
+
+4. Include ReportsDashboard inside App.js and import it
+       <ReportsDashboard />
+When we save and look browser, we can see expected output.
+
+As we perform various operation on these components like entering FromDate and ToDate, the components will be rerendered and we want to log all the details of how many times the respective component is getting rerender and how much time each update is taking 
+
+5. A profiler can be added anywhere in react tree to measure the cost of rendering, profiler requires 2 property id and onrender callback, react calls onRender callback each time a component within the tree commits an update. 
+    So in ReportsDashboard we add profiler to NewAccountReports component, to this profiler we add first attribute called id which will track each profiler uniquely, and another attribute called onRender we will pass function called callbackFunction and this function is called when component within the profiler tree commits an update 
+    <React.Fragment>
+           <h2>Welcome to Reports Dashboard</h2>
+<Profiler id="newAccounts" onRender={this.callbackFunction}>
+                      <NewAccountReports />
+              </Profiler>
+         <LoansRepaymentReports />
+   </React.Fragment> 
+
+Now we implement callbackFunction which is called by react and react passes various parameters to this function like
+1. id : string - used to identify the profiler
+2. phase : mount/update - if the react tree is rendered for first time it returns mount otherwise it returns update
+3. actualDuration: number - Time spent rendering the profiler and its descendants from the current update
+4. baseDuration: number - Duration of most recent render time for each individual component within profiler tree
+5. startTime: number - Timestamp when react began rendering the current update
+6. commitTime:number - Timestamp when react committed the current update
+7. interactions: Set - Set of interactions that were being traced when the update was scheduled (ie) when render or setState is called 
+
+In callbackFunction we pass all parameters and it is arrow function and within function we write code to log these parameter values to console 
+
+callbackFunction=(id,phase,actualDuration,baseDuration,startTime,commitTime,interaction) => {
+   console.log('Id is: '+id+', Phase is: '+phase)
+   console.log('Actual Duration is: '+actualDuration+' and Base Duration is: '+baseDuration)
+}
+
+When we save and look browser, in the console we can see one set of logs which is result of first render and this phase is called mount. Now when we enter value in fromdate we can see next set of logs, this is result of rerender and this phase is called update, by which we can identify which component is rendering how many times and what is the time it is taking from start to the commit 
+
+6. Now we add profiler to LoanRepaymentReports component 
+
+<React.Fragment>
+                <h2>Welcome to Reports Dashboard</h2>
+                <Profiler id="newAccounts" onRender={this.callbackFunction}>
+                      <NewAccountReports />
+                </Profiler>
+                <Profiler id="loanRepayments" onRender={this.callbackFunction}>
+                     <LoansRepaymentReports />
+                </Profiler>
+            </React.Fragment>
+
+When we save and look browser, we can see console logs for both the profilers 
+   Profiler components can also be nested to measure different components within same subtree, profiler is lightweight component and used only when necessary, each profiler use add some CPU and memory overhead to an appl, as profiling adds some additional overhead it is disabled in production build 
+
+
+Render props in React 
+    - used for sharing code between react component using a property whose value is a function 
+    - A component with render prop takes a function that returns a React element and calls it instead of implementing its own render logic
+    Consider in react appl we have DepartmentComponent to display department list and ProjectComponent to display project list and we have RenderComponent which calls both the component
+
+1. Create Department.js with rce create class component and we have list of department inside state object called list and inside JSX we display department details using map()
+
+class Department extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             list:['Dev','Prod','Testing']
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Department List</h2>
+                <ul>
+                    {this.state.list.map(d => (
+                        <li>{d}</li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+}
+
+export default Department
+
+2. Create Project.js with rce create class component, inside JSX we display list of project through property called plist
+
+class Project extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    render() {
+        return (
+            <div>
+               <h2>Project List</h2> 
+               <ul>
+                   {this.props.list.map(d => (
+                       <li>{d}</li>
+                   ))}
+               </ul>
+            </div>
+        )
+    }
+}
+
+export default Project
+
+3. Create Render.js with rce create class component, which calls both Department and Project component
+
+class Render extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    render() {
+        return (
+            <React.Fragment>
+                <Department />
+                <Project list={['P-1','P-2','P-3']} />
+            </React.Fragment>
+        )
+    }
+}
+
+export default Render
+
+4. Include Render inside App.js and import it
+       <Render />
+When we save and look browser, we can see department and project details 
+
+If we observe both Department and Project component class, they are getting data from different resource but rendering pattern and corresponding logic remains the same, we can reuse rendering code across multiple components 
+
+5. We will delete rendering code in both component 
+
+6. We create DisplayList.js with rce create class component, assuming that DisplayList component receive list data through property 
+class DisplayList extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <ul>
+                {this.props.list.map(d => (
+                    <li>{d}</li>
+                ))}
+            </ul>
+        )
+    }
+}
+
+export default DisplayList
+
+7. Inside render() of Department.js, where we want to display list of department 
+   We will call render property and to this property we pass list of departments from state object 
+
+render() {
+        return (
+            <div>
+                <h2>Department List</h2>
+                {this.props.render(this.state.list)}
+            </div>
+        )
+    }
+
+Similary inside render method of Project.js, we add code to display project list,  we will call render property and to this property we pass list of project as props
+ render() {
+        return (
+            <div>
+               <h2>Project List</h2> 
+               {this.props.render(this.props.list)}
+            </div>
+        )
+    }
+
+8. In Render.js we need to call both components differently.
+    For Department component we pass render property which takes function and this function receives the list (ie) data and that list should be passed to DisplayList component so that it can render that list
+
+<React.Fragment>
+                <Department render={(data)=> <DisplayList list={data}/>}/>
+                <Project render={(data)=> <DisplayList list={['P-1','P-2','P-3']} />} />
+            </React.Fragment>
+
+When we save and look browser, we can see expected output and made code reuseable 
+
+Example 2:
+1. Create UserRecords.js which is used to fetch user data from API and display the list of user in table format
+
+class UsersRecords extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            users:[] 
+        }
+    }
+    
+    componentDidMount(){
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    users:result.data
+                }) 
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+    render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
+
+2. Consider we want to display list of user in some other portion of application, other than rewriting the code we want to reuse the code 
+   Create DisplayUser.js with rce create class component within the table we are rendering employee data by reading from state object, so instead of using state object we read from props object  
+
+class DisplayUser extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    render() {
+        return (
+            <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+               {this.props.users.map(user => 
+                   <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.name}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                   </tr>
+               )}
+            </tbody>
+        </table>
+        )
+    }
+}
+
+export default DisplayUser
+
+Now we can use this DisplayUser component anywhere we want to render list of users
+
+3. In UserRecords.js within render method we call props and assuming that this component receive a property called content and to this content property we will pass list of users
+
+ render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                {this.props.content(this.state.users)}
+            </div>
+        )
+    }
+
+4. Include UserReports in App.js and import it, to this component we pass property called content and to this we assign a function which receives list of users 
+
+<UserRecords content={(input)=> <DisplayUser users={input} />} />
+
+When we save and look browser, we can see list of users in table format 
+
+
+Component lifecycle methods in React
+     Each component in React has several lifecycle methods using which we can run different pieces of code at particular time in component processing 
+
+1. Create Student.js with rce create class component and renders <h2> tag
+class Student extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+    render() {
+        return (
+            <div>
+               <h2>Welcome to Student component</h2> 
+            </div>
+        )
+    }
+}
+
+export default Student
+
+2. Include Student.js inside App.js and import it
+       <Student />
+When we save and look browser, we can see output (ie) Student component is inserted in DOM tree, this phase is called mounting.
+   React executes some lifecycle method when instance of component is being created and inserted into DOM tree
+
+Commonly user methods - Mounting
+1. Constructor 
+     Constructor of React component is called before it is mounted. When implementing the constructor in a React component class we should call base class constructor using super keyword otherwise this.props will be undefined in constructor and that lead to bugs
+    In React constructor are used only for 2 purposes
+ 1. When we are initializing local state by assigning a object to this.state 
+ 2. When we are binding event handler methods 
+
+We should not call setState() inside constructor, constructor is only place where we will assign this.state directly, in all of other methods we need to use this.setState to change state data 
+
+2. render
+      render is only required method that needs to be implemented in class component, output of component is depend on what we written in render(). render() can return any of following like React elements, arrays and fragments, portals, numbers or string, booleans or null 
+
+3. componentDidMount 
+      This method invokes immediately after a component is mounted (ie) after component is inserted into DOM tree
+      If u need to fetch data from any web api or if we have to send any network request, we can use this method 
+
+1. In Student.js, we create state called name and initialize to empty
+   Inside render, we create input element to enter student name and we trigger onChange event 
+   Now we implement changeName function which is arrow function and within this function we will update the state property name using setState()
+
+class Student extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             name:''
+        }
+    }
+
+    changeName=(e) => {
+        this.setState({
+            name:e.target.value
+        })
+    }
+    
+    render() {
+        return (
+            <div>
+               <h2>Welcome to Student component</h2> 
+               <p>
+                   <label>Enter Student name: <input type="text" value={this.state.name} 
+                       onChange={this.changeName} /></label>
+               </p>
+            </div>
+        )
+    }
+}
+
+export default Student
+
+When we save and look browser, we can see input element and when we are entering student name so we are updating the value to state object, so whenever there is change in state data or property data of component then the component is rerender, this phase is called update phase of component 
+
+Common methods - Updating
+     The commonly used method when a component is rerendered are
+1. render
+2. componentDidUpdate - This method is invoked immediately after when update occurs, this method is not called for initial render
+    We can use this method to perform some activities on DOM when component is updated 
+
+Common methods - Unmounting
+    When we develop some appl, we develop multiple components as part of it, user will be navigating from one component to another component so when we move from one component to another component then previous component will be removed from DOM and new component will be inserted into DOM (ie) our previous component is unmounted from DOM, when that happens we need to perform any necessary cleanup such as invalidating timers or cancelling network request or cleaning up any subscription that where created in componentDidMount method, in order to handle such scenario we have lifecycle method called componentWillUnmount
+    This method will invoke immediately before component is unmounted and destroyed
+
+1. We have ChangeDetection component class in which we have constructor and created state object called 'userCount' and we calling setInterval function and inside we call getUsersCount for every 5sec
+    Within getUsersCount() we are sending rest endpoint request get list of user and store its length in state variable using setState(). We have implemented lifecycle method called componentDidMount in which we are calling getUsersCount(), and inside render we display userCount
+
+class ChangeDetection extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             userCount:0
+        }
+        setInterval(this.getUsersCount,5000)
+    }
+
+    getUsersCount=() => {
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    userCount:result.data.length
+                }) 
+                console.log(result)
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+
+    componentDidMount(){
+        this.getUsersCount()
+    }
+    
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Change Detection Component</h2>
+                <p>
+                    <label>User Count: <b>{this.state.userCount}</b></label>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default ChangeDetection
+
+2. We have Reports.js with state variable called users[], and in lifecycle method componentDidMount we call getUsers(),and this getUsers() will send request to list of users and update tthe state object users[] using setState() and finally we display the list of users in table format and we have reload button which onclick it calls loadUsers() which calls getUsers() inside render
+
+class Reports extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            users:[] 
+        }
+    }
+    
+    componentDidMount(){
+       this.getUsers()
+    }
+
+    getUsers=() => {
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    users:result.data
+                }) 
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+    render() {
+        return (
+            <div>
+                <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {this.state.users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+<p>
+                    <button onClick={this.loadUsers}>Reload User</button>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default Reports
+
+3. Include ChangeDetection.js inside App.js and import it
+       <ChangeDetection />
+
+4. Inside ChangeDetection we place a button using which we will call Reports component 
+
+render() {
+        return (
+            <div>
+                <h2>Welcome to Change Detection Component</h2>
+                <p>
+                    <label>User Count: <b>{this.state.userCount}</b></label>
+                </p>
+                <button onClick={this.showReports}>Show Reports</button>
+            </div>
+        )
+    }
+Now we implement showReports() and within this method we render Reports component
+
+ showReports=() =>{
+        ReactDOM.render(<Reports/>,document.getElementById("root"))
+    }
+
+When we save and look browser, we can see the contents of ChangeDetection component, when we click on showReports button we can see list of user from Reports component, in this process ChangeDetection component is unmounted and Reports component is mounted. So when a component is unmounted we have to check the cleanup of component is happened properly or not, if it dosent happen then it will have impact on appl performance 
+
+5. In ChangeDetection component class, getUsersCount() we define one alert box 
+
+ getUsersCount=() => {
+        alert('Fetching data from REST API')
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                this.setState({
+                    userCount:result.data.length
+                }) 
+                console.log(result)
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    }
+
+When we save and look browser, we can find alert box, once u click ok we can see ChangeDetection component content and when we click 'Show Reports' button we can user data (ie) we are in Reports component but still we can see alert box will popup (ie) though ChangeDetection component is unmounted setInterval function gets executed continuously resulting we are getting alert. 
+   So when component is unmounted the respective resources of that component should be disposed properly, this is were we use componentWillUnmount method
+
+6. In ChangeDetection component we add componentWillUnmount() and call clearInterval() to stop the timer. 
+   When we call setInterval() it returns one handle, so we pass that handle to clearInterval()
+
+handle=null
+
+this.handle=setInterval(this.getUsersCount,5000)
+
+componentWillUnmount() {
+    clearInterval(this.handle)
+}
+
+When we save and look browser, we can find alert box, once u click ok we can see ChangeDetection component content and when we click 'Show Reports' button we can user data (ie) we are in Reports component but it wont display alert box (ie) when ChangeDetection class is unmounted will clear that interval  
+
+
+Introduction in Hooks
+     We know component in react can be create either as functional or class component. When we want features like managing state in react or responding to lifecycle methods then we opt for class components 
+
+Problems in Class component
+1. Wrapper hell
+2. components become huge 
+3. Confusing classes
+4. Classes dont minify well 
+
+React Hooks
+   - Hooks are functions that let us hook into react state and lifecycle features from Functional components. Hooks dosent work inside class 
+   - Hooks are a new addition in React 16.8
+
+Basic Hooks
+   - useState
+   - useEffect
+   - useContext
+
+Additional Hooks
+   - useReducer
+   - useCallback
+   - useMemo
+   - useRef
+   - useImperativeHandle
+   - useLayoutEffect
+   - useDebugValue
+
+useState hook
+
+1. Create EmployeeComponent.js with state object called 'name', then we have changeName() using which we are updating the name property using setState(). We have render() where we enter name and when user enters the name we update name to state object by calling changeName() and finally print that name     
+
+class EmployeeComponent extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             name:''
+        }
+    }
+    changeName=(e) => {
+        this.setState({
+            name:e.target.value
+        })
+    }
+    
+    
+    render() {
+        return (
+            <div>
+                <h2>Welcome to Employee Component</h2>
+                <p>
+                    <label>Enter name: <input type="text" value={this.state.name}
+                    onChange={this.changeName}/></label>
+                </p>
+                <p>
+                    Entered Name is: <b>{this.state.name}</b>
+                </p>
+            </div>
+        )
+    }
+}
+
+export default EmployeeComponent
+
+2. Include EmployeeComponent inside App.js and import it
+       <EmployeeComponent />
+When we save and look browser, when we enter the name it will display in browser 
+
+So here for simple usecase we are writing more code like writing constructor, calling base class constructor and implementing render(). So when we call EmployeeComponent internally an object gets created for EmployeeComponent using this constructor and when this constructor is called we call base class constructor and internally its call render() to give output so its add additional overhead to appl performance
+     
+3. Create NewEmployee.js as functional component and returns same content like EmployeeComponent. Now we want to store name in state object inside functional component using useState
+   useState function will take one argument (ie) initial value but in this case it is 'abcd', and this function returns 2 values, first one is current state variable and second is function using which that  variable value can be updated to state object. Next we created changeName and inside we call setName to change value of name property 
+
+function NewEmployee() {
+    const [name,setName] = useState('abcd')
+
+   function changeName(e){
+        setName(e.target.value)
+    }
+    return (
+        <div>
+            <h2>Welcome to Employee Functional Component</h2>
+                <p>
+                    <label>Enter name: <input type="text" value={name}
+                    onChange={changeName}/></label>
+                </p>
+                <p>
+                    Entered Name is: <b>{name}</b>
+                </p>
+        </div>
+    )
+}
+
+export default NewEmployee
+
+4. Include NewEmployee inside App.js and import it
+       <NewEmployee />
+When we save and look browser, we get the same output but using useState hook
+
+5. Now we need another input element to enter employee location, so we create another input element 
+ <p>
+                    <label>Enter Location: <input type="text" value={location}
+                    onChange={changeLocation}/></label>
+                </p>
+                <p>
+                    Entered Name and Location is: <b>{name}</b> and <b>{location}</b>
+                </p>
+
+Now we create another state variable called 'location' and function to update it as 'setLocation' with initial value to be empty
+    const [location,setLocation]=useState()
+
+Now we implement changeLocation to update location state variable
+    function changeLocation(e){
+        setLocation(e.target.value)
+    }
+
+When we save and look browser, we can display both name and location in browser 
+
+6. Now if we want to create employee form where we have employee id, name, location, salary etc, so current way of creating multiple state object is not write approach, state variable can hold object, arrays as well so we can group related data together 
+
+function NewEmployee() {
+   const [employee,setEmployeeData]=useState({id:'',name:'',location:'',salary:''})
+
+   function changeEmployeeInfo(e){
+       setEmployeeData({
+           [e.target.name]:e.target.value
+       })
+   }
+
+    return (
+        <div>
+            <h2>Welcome to Employee Functional Component</h2>
+                <p>
+                    <label>Enter ID: <input type="text" name="id" value={employee.id}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter name: <input type="text" name="name" value={employee.name}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter Location: <input type="text" name="location" value={employee.location}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter Salary: <input type="text" name="salary" value={employee.salary}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    Entered Information are: <b>{employee.id}</b>, <b>{employee.name}</b>, <b>{employee.location}</b> and <b>{employee.salary}</b>
+                </p>
+        </div>
+    )
+}
+
+export default NewEmployee
+
+When we save and look browser, we can see all input and when we input id it will display and when we input name then id will be going and only name display and it happens like that 
+   If we observe setEmployeeData function we are passing an object and that object holds only current input details but not other input element details, so we use spread operator to  maintian other input details 
+
+ function changeEmployeeInfo(e){
+       setEmployeeData({
+           ...employee,[e.target.name]:e.target.value
+       })
+   }
+
+When we save and look browser, we can see correct output from all the fields 
+
+
+Sharing data between functional component (ie) parent to child and child to parent 
+    Consider we are developing react appl which has two component called EmpComponent which is parent component and SalaryComponent as child component. When we enter salary in EmpComponent assuming that there is formula based on which SalaryComponent details like basic salary, HRA, PF will gets populated as well as we can modify salary details in SalaryComponent which affect the EmpComponent (ie) we want to pass data from EmpComponent to SalaryComponent and from SalaryComponent to EmpComponent 
+
+1. Refer NewEmployee component as parent component which we created previously
+function NewEmployee() {
+   const [employee,setEmployeeData]=useState({id:'',name:'',location:'',salary:''})
+
+   function changeEmployeeInfo(e){
+       setEmployeeData({
+           ...employee,[e.target.name]:e.target.value
+       })
+   }
+
+    return (
+        <div>
+            <h2>Welcome to Employee Functional Component</h2>
+                <p>
+                    <label>Enter ID: <input type="text" name="id" value={employee.id}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter name: <input type="text" name="name" value={employee.name}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter Location: <input type="text" name="location" value={employee.location}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    <label>Enter Salary: <input type="text" name="salary" value={employee.salary}
+                    onChange={changeEmployeeInfo}/></label>
+                </p>
+                <p>
+                    Entered Information are: <b>{employee.id}</b>, <b>{employee.name}</b>, <b>{employee.location}</b> and <b>{employee.salary}</b>
+                </p>
+        </div>
+    )
+}
+
+export default NewEmployee
+
+2. Now we create SalaryComponent and we will pass salary from NewEmployee component through props called 'salary' and return input element with value='salary' since salary is coming from property of Salary component
+
+const SalaryComponent = ({salary}) => {
+    return(
+        <div>
+            <h2>Welcome to Salary Functional Component</h2>
+            <p>
+                    <label>Enter Salary: <input type="text" name="salary" value={salary}
+                    onChange={changeEmployeeInfo}/></label>
+            </p>
+        </div>
+    )
+}
+
+So when we change salary we want this salary to update in NewEmployee component and whenever there is change in salary in NewEmployee component it should updated in SalaryComponent, though we are representing salary in different component (ie) SalaryComponent at the end it is salary of employee 
+   So whenever there is change in salary in SalaryComponent we push the change to NewEmployee component and in that component we already define changeEmployeeInfo function and we will call that function so that salary change we doing in SalaryComponent is pushed to EmployeeComponent 
+
+3. Now we pass another property onSalaryChange to SalaryComponent and assign to onChange attribute of input element
+
+const SalaryComponent = ({onSalaryChange,salary}) => {
+    return(
+        <div>
+            <h2>Welcome to Salary Functional Component</h2>
+            <p>
+                    <label>Enter Salary: <input type="text" name="salary" value={salary}
+                    onChange={onSalaryChange}/></label>
+            </p>
+        </div>
+    )
+}
+
+4. Now we call SalaryComponent in NewEmployeeComponent with property called salary and we get salary from employee object so we call employee.salary and next is onSalaryChange and to this we pass changeEmployeeInfo function 
+
+<SalaryComponent salary={employee.salary} onSalaryChange={changeEmployeeInfo} />
+
+So whenever there is change in salary from child component we are calling function which is defined in parent component so that change can be updated in both the components 
+
+When we save and look browser, we can see change doing in salary of employee component affects salary component and vice versa
+
+
+useEffect hook
+    - This function runs when component is first rendered and on every subsequent re-render/update
+    - We can think of useEffect hook as componentDidMount, componentDidUpdate and componentWillUnmount combined
+    When we develop react appl we want to run some code after react has updated the DOM, that code can be getting the data by calling web api or setting up subscriptions to get reports data or writing logs after DOM is ready. To write such additional code in class component we have lifecycle methods like componentDidMount, componentDidUpdate methods, but in functional component we can use useEffect hook
+    Consider we have User component in which we display list of users so we have to send web API request, get the data and display the data, this is where we use useEffect hook in functional component 
+
+Example 1:
+1. Create UserListComponent.js and create a state users and setUsers() to update the state object using useState() initial value as empty array
+   Create useEffect() and inside use axios to fetch list to users and call setUsers() to store that list of users to users state object and inside JSX display users in table format 
+
+function UserlistComponent() {
+    const [users,setUsers]=useState([])
+
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    })
+    return (
+        <div>
+            <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+        </div>
+    )
+}
+
+export default UserlistComponent
+
+When we save and look browser, we can see all users are displayed in table format 
+
+So in this example when DOM is ready we are sending API request, getting user data and updating users state variable by calling setUsers(). But it has one problem, whenever there is any change in property data or state data of that component, then that component gets re-render resulting our useEffect function gets called again. When useEffect function is called, again we are sending api request, getting the data and updating users state object (ie)  we are changing state data again, so component gets re-rendered and again this process gets repeated resulting it will get into infinite loop 
+
+2. Create alter("We are in useEffect function") inside useEffect function
+
+When we save and look browser, the alert will executed again and again
+
+3. If we want to run useEffect function only once then we can pass empty array as second argument, which tells react that our effect dosent depend on any values from property or state so never needs to rerun
+
+useEffect(()=>{
+        alert('We are in useEffect function')
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    },[])
+
+When we save and look browser, we can see useEffect will be executed only once 
+
+
+Example 2
+1. In PostlistComponent, now we want to add textbox using which we add id, based on that we send request to web api, get the list of posts based on such criteria and display in table 
+  - Create state variable called 'searchText' and setSearchText to update the state variable with initial value as empty string
+   const [searchText,setSearchText]=useState('')
+ - Create input element in JSX for searchText and onchange we will call onSearchTextChange
+    <p>
+                <label>Enter Search text: <input type="text" value={searchText}
+                        onChange={onSearchTextChange} /></label>
+            </p>
+
+   - Now we implement onSearchTextChange method where we call setSearchText() and pass value of input element
+
+function onSearchTextChange(e){
+        setSearchText(e.target.value)
+    }
+
+2. Now within useEffect hook we call web api and pass searchText through url and now we want our effect to be executed whenever there is change in searchText, so we have to pass searchText as second argument to useEffect (ie) whenever there is change in searchText value this effect will be executed 
+
+function UserlistComponent() {
+    const [users,setUsers]=useState([])
+    const [searchText,setSearchText]=useState('')
+    useEffect(()=>{
+        alert('We are in useEffect function')
+        axios.get("https://jsonplaceholder.typicode.com/users"+searchText)
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    },[searchText])
+
+    function onSearchTextChange(e){
+        setSearchText(e.target.value)
+    }
+
+    return (
+        <div>
+            <h2>User Data</h2>
+            <p>
+                <label>Enter Search text: <input type="text" value={searchText}
+                        onChange={onSearchTextChange} /></label>
+            </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+        </div>
+    )
+}
+  
+export default UserlistComponent
+
+When we save and look browser, we can see text box and when we input based on that value it will populate only those data 
+
+Example 3:
+    useEffect hook can have dependency on multiple state variables or properties as well
+   - Create another state variable called userCount and method setUserCount to update the state variable with initial value to 0
+    const [userCount,setUserCount]=useState(0)
+   - Create button and assuming that on click of this button we add new user, once it is created successfully we update userCount 
+    <p>
+                <button onClick={addNewUser}>Add New User</button>
+            </p>
+   - Now we implement addNewUser(), assume that new user is created and update userCount using setUserCount()
+ function addNewUser(){
+        setUserCount(userCount+1)
+    }
+   - Now we want user data in table should be re-rendered when there is change in searchText or userCount changes so we add userCount also as dependency to our useEffect function
+ useEffect(()=>{
+        alert('We are in useEffect function')
+        axios.get("https://jsonplaceholder.typicode.com/users"+searchText)
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    },[searchText,userCount])
+
+Now when we save and look browser, we can see useEffect will  be executed when searchText value changes and on click of button 
+
+Example 3:
+   When we develop one appl, we develop multiple components as part of it and user will navigating from one component to another component. So when we move from one component to other, the previous component is removed from DOM (ie) unmounting and new component contents will be displayed in UI, when that happens we need to perform necessary cleanup such as invalidating timers, cancelling network request or cleaning up any subscription created in that respective component 
+    Class component has lifecycle method called componentWillUnmount and we write such cleanup code inside that method, we see how to do in case of functional component 
+
+1. Create UserCountComponent.js as functional component, create state variable called 'userCount' and setUserCount to update the state variable with initial value as 0
+   Inside useEffect() we will write code to get list of user using web api request from getUsersCount() and when we get response we update the userCount using setUserCount() and finally print usercount inside JSX. Now we want getUsersCount() to be called every 5sec so we use setInterval() and show updated count
+
+function UserCountComponent() {
+    const [userCount, setUsersCount] = useState(0)
+
+    useEffect(() => {
+        setInterval(getUsersCount, 5000)
+    })
+
+    function getUsersCount() {
+        alert('Fetching data from REST API')
+        axios.get("https://jsonplaceholder.typicode.com/users")
+            .then(
+                (result) => {
+                        setUsersCount(result.data.length)
+                }
+            )
+            .catch(error => console.error("Myerror" + error))
+    }
+
+    return (
+        <div>
+           <h2>Welcome to UserCount Component</h2>
+           <p>
+               <label>UserCount: <b>{userCount}</b></label>
+           </p>
+        </div>
+    )
+}
+
+export default UserCountComponent
+
+2. Create Department component which will return simple message from this component 
+
+function Department() {
+    return (
+        <div>
+            <h2>Welcome to Department Component</h2>
+        </div>
+    )
+}
+
+export default Department
+
+3. Now we call Department component from UserCountComponent, so we have button and on click of that button we show the contents of Department component. So in UserCountComponent.js we create
+     <button onClick={navigateToDepartment}>Department</button>
+   - Now we implement navigateToDepartment(), where we call DepartmentComponent and render on root element
+   function navigateToDepartment(){
+        ReactDOM.render(<Department/>,document.getElementById("root"))
+    }
+
+4. Include UserCountComponent inside App.js and import it
+       <UserCountComponent />
+When we save and look browser, we can see alert for every 5sec with user count and when we click 'Department' button it will go to Department component but still we get alert notification from UserCountComponent 
+   So we have to clear the interval we set in UserCount component when we move away from that component 
+
+5. When we want to do any cleanup in functional component, we can do in useEffect hook itself. So any cleanup code u want to execute when the component is unmounted we will write inside the function and return that function from useEffect hook
+   This function is arrow function and we can call clearInterval() and in order to call clearInterval() we need to call handle, as we know setInterval() will return a handle and that can be passed to clearInterval()
+   useEffect(() => {
+        var handle=setInterval(getUsersCount, 5000)
+
+        return () => {
+            clearInterval(handle)
+        }
+    })
+
+When we save and look browser,we can see alert box with user count in UserCount component and when we click button it will go to Department component without alert box (ie) we have cleared the interval which is being set.
+   So we use useEffect as combination of componentDidMount, componentDidUpdate, componentWillUnmount
+
+
+useContext hooks
+    In typical react appl, data is passed from parent component to child component through a property but this becomes difficult for certain type of properties like if the properties data is needed by multiple components which are nested at different levels within an application.
+    Assuming that when we access one application where we have nesting of components like Employee, Salary and Project component. Consider EmployeeComponent have employee object and that object data is needed by salary as well as project component.
+   Context API provides a way to share values between components without having to explicitly pass that property through every level of tree. Context is primarily used when some data needs to be accessible by many components placed at different nesting levels in case of class components. But we use useContext hook in case of functional component 
+
+1. Create ContextEmployee.js as functional component
+
+function ContextEmployee() {
+    return (
+        <div>
+            <h2>Welcome to Context Employee Component</h2>
+        </div>
+    )
+}
+
+export default ContextEmployee
+
+2. Create ContextSalary.js with functional component
+
+function ContextSalary() {
+    return (
+        <div>
+            <h2>Welcome to Context Salary Component</h2>
+        </div>
+    )
+}
+
+export default ContextSalary
+
+3. Create ContextProject.js with functional component
+
+function ContextProject() {
+    return (
+        <div>
+            <h2>Welcome to Context Project Component</h2>
+        </div>
+    )
+}
+
+export default ContextProject
+
+4. Now we call ContextSalary in ContextEmployee and ContextProject inside ContextSalary component, so that we create nesting of component 
+
+function ContextEmployee() {
+    return (
+        <div>
+            <h2>Welcome to Context Employee Component</h2>
+            <ContextSalary/>
+        </div>
+    )
+}
+
+function ContextSalary() {
+    return (
+        <div>
+            <h2>Welcome to Context Salary Component</h2>
+            <ContextProject/>
+        </div>
+    )
+}
+
+5. Include ContextEmployee in App.js and import it
+        <ContextEmployee />
+
+6. In ContextEmployee, we create employee state variable and setEmployee() to update employee data using useState with initial value  
+
+const [employee,setEmployee] = useState({id:100,name:'Ram',location:'chennai',salary:20000})
+
+This employee object is needed by both ContextSalary and ContextProject component
+
+7. We create context object using React.createContext()
+
+const employeeContext=React.createContext()
+
+Using this employeeContext we will pass the data from ContextEmployee component to ContextSalary component and then from ContextSalary component to ContextProject component
+
+8. Every context object comes with a provider component which allows consuming components to subscribe to the context changes, so we have employeeContext.Provider and it also accepts a property called value using which we pass employee object from ContextEmployee component to descendant component 
+
+       <div>
+            <h2>Welcome to Context Employee Component</h2>
+            <employeeContext.Provider value={employee}>
+                  <ContextSalary/>
+            </employeeContext.Provider>
+        </div>
+
+Now we can access employee object in both ContextSalary and ContextProject component using useContext hook in react 
+
+9. In ContextSalary we can access employee object using useContext and to this we pass employeeContext and display employee data in ContextSalary component 
+
+import React,{useContext} from 'react'
+import ContextProject from './ContextProject'
+import { employeeContext } from './ContextEmployee'
+
+function ContextSalary() {
+    let context=useContext(employeeContext)
+    return (
+        <div>
+            <h2>Welcome to Context Salary Component</h2>
+            <p>
+                <label>Employee Id: <b>{context.id}</b></label>
+            </p>
+            <p>
+                <label>Employee Name: <b>{context.name}</b></label>
+            </p>
+            <ContextProject/>
+        </div>
+    )
+}
+
+export default ContextSalary
+
+10. In ContextProject we access employee object using useContext and display it
+
+import React,{useContext} from 'react'
+import { employeeContext } from './ContextEmployee'
+
+function ContextProject() {
+    let context=useContext(employeeContext)
+    return (
+        <div>
+            <h2>Welcome to Context Project Component</h2>
+            <p>
+                <label>Employee Id: <b>{context.id}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{context.salary}</b></label>
+            </p>
+        </div>
+    )
+}
+
+export default ContextProject
+
+When we save and look browser, we can see output and we can see that our employee data from ContextEmployee is accessed by the components which are placed at different nesting levels (ie) from ContextEmployee to ContextSalary and ContextSalary to ContextProject component
+
+11. Previously we see how to update employee data from parent to child component, consider we want to update salary in ContextProject component and we need to update in parent component 
+   Now we display salary in all component so that we can see changes in all component. From ContextEmployee component we are passing employee object to its descendant using value property of Provider, now we want descendant component to update the employee data. In order to update the employee data we have function called setEmployee so we can pass this function to child component along with employee data using value attribute 
+   So we create an object called data which hold both enployee and updateEmployee and to this function we pass setEmployee function 
+
+function ContextEmployee() {
+    const [employee,setEmployee] = useState({id:100,name:'Ram',location:'chennai',salary:20000})
+    return (
+        <div>
+            <h2>Welcome to Context Employee Component</h2>
+            <p>
+                <label>Employee Salary: <b>{employee.salary}</b></label>
+            </p>
+            <employeeContext.Provider value={{data:employee,updateEmployee:setEmployee}}>
+                  <ContextSalary/>
+            </employeeContext.Provider>
+        </div>
+    )
+}
+
+function ContextSalary() {
+    let context=useContext(employeeContext)
+    return (
+        <div>
+            <h2>Welcome to Context Salary Component</h2>
+            <p>
+                <label>Employee Id: <b>{context.id}</b></label>
+            </p>
+            <p>
+                <label>Employee Name: <b>{context.name}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{context.salary}</b></label>
+            </p>
+            <ContextProject/>
+        </div>
+    )
+}
+
+12. In ContextSalary component, if we observe we are accessing employee details using context object, but now context object has 2 property called data and updateEmployee, so now employee object is available through data property 
+
+ <p>
+                <label>Employee Id: <b>{context.data.id}</b></label>
+            </p>
+            <p>
+                <label>Employee Name: <b>{context.data.name}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{context.data.salary}</b></label>
+            </p>
+
+13. We do same change in ContextProject component and we create button in ContextProject component using which we update the employee salary through updateSalary()
+
+ <p>
+                <label>Employee Id: <b>{context.data.id}</b></label>
+            </p>
+            <p>
+                <label>Employee Salary: <b>{context.data.salary}</b></label>
+            </p>
+            <button onClick={updateSalary}>Update</button>
+
+Now we implement updateSalary() and within the function using context object we call updateEmployee() and to that function we pass employee object using spread operator with updated salary as 15000
+
+function updateSalary(){
+        context.updateEmployee({...context.data,salary:15000})
+    }
+
+When we save and look browser, we can see salary is displayed in all 3 components, so when we click on update button salary will be updated in all 3 components 
+
+14. Now we add new property called empType to employee data as either permanent or contract, now if empType is contract we need to display the contents of one component and if empType is permanent we need to display the contents of another component
+   Create Permanent.js component as functional component 
+
+function Permanent() {
+    return (
+        <div>
+            <h2>Welcome to Permanent Component</h2>
+        </div>
+    )
+}
+
+export default Permanent
+
+ - Create Contract.js as functional component
+
+function Contract() {
+    return (
+        <div>
+            <h2>Welcome to Contract Component</h2>
+        </div>
+    )
+}
+
+export default Contract
+
+15. Now in ContextEmployee component, we add empType property to employee data with contract as value 
+
+const [employee,setEmployee] = useState({id:100,name:'Ram',location:'chennai',salary:20000,empType:'contract'})
+
+16. Now we go to ContextSalary component and check whether empType is permanent to display Permanent component otherwise Contract component using employeeContext.Consumer
+   This Consumer is a react component that subscribes to context changes, which requires a function to be passed as a change and receives the current context value as input and returns react element 
+
+<employeeContext.Consumer>
+                {value=>value.data.empType==='permanent' ? <Permanent/>:<Contract/>}
+            </employeeContext.Consumer>
+
+So we are consumer component and within that component we are receiving the context value and we are validating the empType using context value, based on value we render Permanent or Contract component 
+
+17. Now we create button in ContextSalary component to change empType 
+
+   <button onClick={changeEmpType}>Make Permanent</button>
+
+Now we implement changeEmpType(), within this function we change empType of employee object 
+
+function changeEmpType(){
+context.updateEmployee({...context.data,empType:'permanent'})
+}
+
+When we save and look browser,we can see Contract component will be displayed and when we click 'Make Permanent' button it will convert into Permanent component 
+
+
+Custom Hooks in React
+   - A custom hook is a Javascript function whose name starts with "use" and that may call other hooks 
+    There might be instance where we have been writing the same repetitive and redundant stateful logic inside multiple components 
+   Consider we have AppComponent which uses UserComponent which connects to web api and fetch list of users and PostComponent again which connects to web api and fetch list of posts, in order to achieve this we have written the same code in both component, so how we can reuse the code between two different component we werw able to handle this by creating render props or HOC concept in class component, but how we can implement in case of functional component
+
+1. Create UserComponent.js which make request to web api and returns list of users
+
+function UserlistComponent() {
+    const [users,setUsers]=useState([])
+
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    })
+    return (
+        <div>
+            <h2>User Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {users.map(user => 
+                           <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+        </div>
+    )
+} 
+
+export default UserComponent
+
+2. Create PostComponent.js which makes request to web api and returns a list of posts 
+
+function PostComponent() {
+    const [posts,setPosts]=useState([])
+
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+        .then(
+            (result) => {
+                setPosts(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    })
+    return (
+        <div>
+            <h2>Post Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {posts.map(post => 
+                           <tr key={post.id}>
+                                <td>{post.id}</td>
+                                <td>{post.title}</td>
+                                <td>{post.body}</td>
+                           </tr>
+                       )}
+                    </tbody>
+                </table>
+        </div>
+    )
+}
+
+export default PostComponent
+
+3. Create AppComponent.js and call UserComponent and PostComponent
+
+function AppComponent() {
+    return (
+        <div>
+            <UserComponent />
+            <PostComponent/>
+        </div>
+    )
+}
+
+export default AppComponent
+
+4. Include AppComponent in App.js and import it 
+      <AppComponent />
+When we save and look browser, we can see both user and post will be displayed in table format
+   So in both components we have create one state variable and we have handle one useEffect hook in which we have written the code to send web api request and get the data and assign the state variable. 
+   So instead of writing same code again in two different components we can create one javascript function in which we can write this reusable code and that function can be used in any component wherever we want to reuse that logic 
+
+5. Create a function called useList which accepts web api url as parameter,within this function we create one state variable in which we will store the data and we will pass a function using useState with initial value to empty array 
+   Now we call web api using useEffect hook which contain the code to fetch the data and instead of hardcoding the url we pass url as parameter to this function and call setData() and finally from this function we return the data 
+
+function useList(url) {
+   const [data,setData]=useState([])
+
+   useEffect(()=>{
+    axios.get(url)
+    .then(
+        (result) => {
+            setData(result.data)   
+        } 
+    )
+    .catch(error => console.error("Myerror"+error))
+   })
+
+   return data
+}
+
+export default useList
+
+Within this function as we are using other react hooks like useState and useEffect, this is called custom hook in react
+
+6. Now we call this function in UserComponent 
+
+ const users = useList("https://jsonplaceholder.typicode.com/users")
+
+And also in PostComponent we give and import it 
+
+ const posts=useList("https://jsonplaceholder.typicode.com/posts")
+
+When we save and look browser, we can see both list of data from users and posts 
+
+
+Routing in React (version 6)
+     -  In React Routerv6, Switch is replaced by Routes 
+     -  No need for exact 
+     Components are basic building block of react appl, routing enables navigation from one view to other view as user perform different activity 
+
+1. Create UserComponent.js which makes web api request and fetch list of users 
+
+2. Create PostComponent.js which makes web api request and fetch list of posts  
+
+3. Create AlbumComponent.js which makes web api request and fetch list of albums
+
+4. Create RouteComponent.js and here we want to place 3 different links using which user can navigate to respective component
+
+function RouteComponent() {
+    return (
+        <div>
+            <h2>Welcome to Route Component</h2>
+            <ul>
+                <li>User Component</li>
+                <li>Post Component</li>
+                <li>Album Component</li>
+            </ul>
+        </div>
+    )
+}
+
+export default RouteComponent
+
+5. Include RouteComponent in App.js and import it
+       <RouteComponent />
+When we save and look browser, now we can see all component but we need those component should be displayed as link so that user can navigate from one component to other component 
+
+6. Install react-router package to implement routing whether we develop web app or mobile app. For web app we install "react-router-dom" and for mobile app we use "react-router-native"
+      >npm install react-router-dom 
+
+7. In RouteComponent we import required component classes from react-router-dom package 
+
+import {BrowserRouter, Link, Switch, Route} from 'react-router-dom'
+
+8. React router provides a component called 'Link' using which we can create links in our appl, whenever we render link component corresponding anchor tag will generate in HTML 
+   To this link we need to specify navigation url by adding an attribute called "to"
+
+<ul>
+ <li><Link to="/user">User Component</Link></li>
+ <li><Link to="/post">Post Component</Link></li>
+ <li><Link to="/album">Album Component</Link></li>
+</ul>
+
+9. Now we want one component who can understand the user navigation and display respective component content, this is where we use another component called "Route" component 
+
+<Routes>
+     <Route path="/user" element={<UserComponent/>} />
+     <Route path="/post" element={<PostComponent/>}/>
+     <Route path="/album" element={<AlbumComponent/>}/>
+</Routes>
+
+10. Inorder to enable routing for our RouteComponent, we have call RouteComponent within the boundaries of router component. React router dom provides a router component called BrowserRouter 
+   In App.js call RouteComponent within BrowserRouter component
+     <BrowserRouter>
+        <RouteComponent />
+     </BrowserRouter>
+
+When we save and look browser,we can see 3 hyperlink and when we click each link it will go to respective component and displays the data 
+
+BrowserRouter component - It is router implementation for HTML5 browser
+Link component- we generate anchor tags
+Route component - checks on navigation url and based on match it returns corresponding component
+
+
+11. Now when we load RouteComponent, we want content of UserComponent to display in default, so we change route url as "/" instead of "/user"
+
+ <li><Link to="/">User Component</Link></li>
+
+ <Route path="/" element={<UserComponent/>} />
+
+when we save and look browser,we can see the list of user displayed from UserComponent by default 
+
+
+12. Now we want to add some styling attribute to link item when that link is active, so it is easy to identify which link is clicked 
+    React router provide another component called NavLink which is special type of link which style itself active when "to" property matches current location 
+
+import {NavLink} from 'react-router-dom'
+
+For post and album, instead of using Link we use NavLink component, to this NavLink we pass another attribute called "activeClassName" with CSS class called "testClass"
+
+<li><Link to="/">User Component</Link></li>
+                <li><NavLink to="/post" activeClassName="testClass">Post Component</NavLink></li>
+                <li><NavLink to="/album" activeClassName="testClass">Album Component</NavLink></li>
+
+Now we implement testClass css inside index.html
+
+<style>
+.testClass {
+    font-weight: bold;
+    color:red;
+}
+</style>
+
+13. When we give wrong url, if we want to redirect to some other component and display error message
+
+ <Route path="*" element={<NotFound />} />
+
+Now if we give any wrong url it will redirect to NotFound component and display error message
+
+14. Now we want to provide edit option against each row of post data, when we click edit button we should navigate to EditPostComponent and carry post id from PostComponent to EditPostComponent, so in PostComponent we create Edit button with id
+
+<td><a href={'/post/'+post.id}>Edit</a></td>
+
+15. Create route the url created 
+
+ <Route path="/user/:id" element={<EditUser/>} />
+ <Route path="/post/:id" element={<EditPost/>} />
+
+16. Now we create EditUser and EditPost component to edit individual user or post, we can access the "id" passed in url using useParams provide by react-router 
+
+import {useParams} from 'react-router-dom'
+
+let { id } = useParams();
+
+ useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/users/"+id)
+}
+
+
+17. Nesting of routes
+In UserComponent, when we click Edit link we navigate to EditUser component and displaying user details. If we want to display user info, user salary and user project info in different tabs (ie) we have to add routing to EditUser component
+
+1. Create UserPersonalInfo.js and paste code of EditUser component which display infomation about user 
+
+function UserPersonalInfo() {
+    const [users,setUsers]=useState([])
+    let { id } = useParams();
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/users/"+id)
+        .then(
+            (result) => {
+                setUsers(result.data)   
+            } 
+        )
+        .catch(error => console.error("Myerror"+error))
+    })
+    function changeUserData(){
+
+    }
+    return (
+        <div>
+            <h2>User Details</h2>
+            <p>
+                <label>User id: <input type="text" name="id" value={users.id}
+                   onChange={changeUserData} /></label>
+            </p>
+            <p>
+                <label>Name: <input type="text" name="name" value={users.name}
+                   onChange={changeUserData} /></label>
+            </p>
+            <p>
+                <label>Username: <input type="text" name="username" value={users.username}
+                   onChange={changeUserData} /></label>
+            </p>
+            <p>
+                <label>Email: <input type="text" name="email" value={users.email}
+                   onChange={changeUserData} /></label>
+            </p>
+            <button>Update</button>
+        </div>
+    )
+}
+
+2. Create UserSalaryInfo.js with functional component 
+
+function UserSalaryInfo() {
+    return (
+        <h2>User Salary Infomation Component</h2>
+    )
+}
+
+export default UserSalaryInfo
+
+3. Create UserProjectInfo.js as functional component
+
+function UserProjectInfo() {
+    return (
+        <h2>Welcome to User Project Component</h2>
+    )
+}
+
+export default UserProjectInfo
+
+4. In RouteComponent we create routing, inside the UserComponent as we create nested routes
+
+<Route path="/user/:id" element={<EditUser/>}>
+                    <Route path="/user/:id" element={<UserPersonalInfo/>} />
+                    <Route path="/user/:id/salary" element={<UserSalaryInfo/>} />
+                    <Route path="/user/:id/project" element={<UserProjectInfo/>} />
+                </Route>
+
+5. In EditUser component we create Link and Outlet (ie) where the route should display 
+
+function EditUser(){
+    let { id } = useParams();
+    return(
+        <div>
+             <Link to={"/user/"+id}>User Personal</Link> &nbsp; &nbsp;
+             <Link to={"/user/"+id+"/salary"}>User Salary</Link> &nbsp; &nbsp;
+             <Link to={"/user/"+id+"/project"}>User Project</Link>
+            <Outlet />
+        </div>
+    )
+}
+
+
+18. 
