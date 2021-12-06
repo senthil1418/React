@@ -1,0 +1,290 @@
+  React is a JavaScript library for building user interfaces. And we also learned that of course in general, HTML, CSS and JavaScript are about building user interfaces as well. But  that we use libraries like React because that simplifies building those user interfaces. We don't need it, you can build any website without React but if you are having more complex user interfaces . If you use something like React it all of a sudden becomes much easier to build something like this.     React is all about components.  Components are, reusable building blocks in your user interface. Components are in the end just a combination of HTML code, CSS code for styling and possibly JavaScript code for some logic.  You build these individual components and then you tell React how to compose them together into a final user interface. 
+   And React embraces this concept of components because of that reusability aspect and because it allows us to separate our concerns. Both concepts are important concepts in programming in general. Having reusable building blocks helps us avoid repetition, and in programming in general it is good if we don't repeat ourselves. Having a separation of concerns helps us with keeping our code base small and manageable instead of having one large file which holds all the HTML code and all the JavaScript logic. 
+
+Why React is all about component?
+  In the end user interfaces are about HTML, CSS and JavaScript. And therefor all these components are about combining HTML, CSS and JavaScript. When we work with React and we build components, we in the end do just that. We combine HTML, CSS and JavaScript in all these components and then we combine all of these components together to build the entire user interface. 
+
+Structure of React project
+
+ And the first thing you'll notice here, in this starting project   we have two JavaScript and one CSS file. 
+   Now let's start with the index.js file. You don't see it anywhere, but I can tell you that this is actually the first code file which will be executed whenever this page is loaded. So whenever you visit localhost:3000 here at the moment, this index JavaScript file holds to code which is executed initially.  Therefore the npm start process, which we started here, which started this development server, which is watching our code, this process will not just watch our code and then take it and deliver it to the browser, but before it delivers it, it will transform it. 
+   ReactDOM, this package is exporting some ReactDOM object and we're importing it here into index.js. And we are importing it to then call a method, the render method on that imported object. The render methods takes two arguments here, two parameters. The second argument is a default JavaScript DOM API which we're calling on the global document object, which is a way to blend JavaScript in browser site JavaScript. We have a get element by ID method to select a certain DOM HTML element by its ID, there also is a public folder. This folder is a folder in which we will rarely work, but it holds one important file. This index.html file. This is the single HTML file, which is in the end loaded by the browser here because with the React we build a so-called single page application at least typically. 
+      It basically means that only one HTML file is delivered to the browser and hosted by the browser day or for rendered by the browser. But on this single file, we import the finished React application code and it's start code which then updates what we see on the screen. 
+
+Creating Custom Component
+1. Create ExpenseItem component as functional component
+function ExpenseItem() {
+    return (
+        <div>
+            <div>March 28th 2021</div>
+            <div>
+                <h2>Car Insurance</h2>
+                <div>$245.67</div>
+            </div>
+        </div>
+    )
+}
+
+export default ExpenseItem
+
+2. Include ExpenseItem inside App.js and import it 
+      <ExpenseItem/>
+When we save and look browser, we can see the output
+
+Adding basic styles
+1. Create ExpenseItem.css and paste the code and import in ExpenseItem.js
+   import './ExpenseItem.css'
+
+We don't type class here as we would do in regular HTML, but instead className. because class is a reserved word in JavaScript
+
+function ExpenseItem() {
+    return (
+        <div className="expense-item">
+            <div>March 28th 2021</div>
+            <div className="expense-item__description">
+                <h2>Car Insurance</h2>
+                <div className="expense-item__price">$245.67</div>
+            </div>
+        </div>
+    )
+}
+
+
+Outputting dynamic data and working with expressions in JSX
+   We will probably not just have one expense and definitely not an expense where the data is just hard coded into the component as it is here. The date is hard coded here, the title is hard coded, the amount is hard coded and it's the only expense we have. In our final tracker we wanna have an unlimited amount of expenses if we want to. We want to have multiple expense item components in action.
+   For example, let's add a constant, so a variable which may never change and in there let's store a date by using the built in date constructor which comes with JavaScript, store title and amount.  Instead to output dynamic data you use a special syntax React gives you inside of these JSX code snippets. You can replace hard coded data with opening and closing curly braces. Single curly braces opening and closing.
+
+function ExpenseItem() {
+    const expenseDate=new Date(2021,2,28)
+    const expenseTitle='Car Insurance'
+    const expenseAmount=234.67
+    return (
+        <div className="expense-item">
+            <div>{expenseDate.toISOString()}</div>
+            <div className="expense-item__description">
+                <h2>{expenseTitle}</h2>
+                <div className="expense-item__price">${expenseAmount}</div>
+            </div>
+        </div>
+    )
+}
+
+How to make components as reuseable?
+   We can make our components reusable by using parameters and a concept called props in React.
+   We can pass data to the custom component by adding a attribute. And inside of that component, we can then get access to all these attributes which might have been set on our custom component. 
+   In ExpenseItem, we have the date, the title, and the amount, and we'd like to output this here, but it shouldn't be stored in here but instead in App.js.
+const expenses = [
+    {
+      id: 'e1',
+      title: 'Toilet Paper',
+      amount: 94.12,
+      date: new Date(2020, 7, 14),
+    },
+    { id: 'e2', title: 'New TV', amount: 799.49, date: new Date(2021, 2, 12) },
+    {
+      id: 'e3',
+      title: 'Car Insurance',
+      amount: 294.67,
+      date: new Date(2021, 2, 28),
+    },
+    {
+      id: 'e4',
+      title: 'New Desk (Wooden)',
+      amount: 450,
+      date: new Date(2021, 5, 12),
+    },
+  ];
+
+   Now you will have four objects inside of this expenses array. And now we want to pass the data of these different objects to these different ExpenseItems. The data should not be stored inside of them but instead received from outside. And that works with this props concept. So in App.js
+
+ <ExpenseItem
+        title={expenses[0].title}
+        amount={expenses[0].amount}
+        date={expenses[0].date}
+      ></ExpenseItem>
+      <ExpenseItem
+        title={expenses[1].title}
+        amount={expenses[1].amount}
+        date={expenses[1].date}
+      ></ExpenseItem>
+      <ExpenseItem
+        title={expenses[2].title}
+        amount={expenses[2].amount}
+        date={expenses[2].date}
+      ></ExpenseItem>
+      <ExpenseItem
+        title={expenses[3].title}
+        amount={expenses[3].amount}
+        date={expenses[3].date}
+      ></ExpenseItem>
+
+So how do we get access to the values defined in the place where we use our custom components by using one parameters called props. And that one parameter will be an object which holds all the received attributes as properties, hence the name props for the overall concept and you can name this parameter whatever you want,  we get key-value pairs in this props object here which is passed in by React automatically. The keys will be the attribute names defined here, so title, amount, and date in my case. And the values, of course, will be the values set here
+
+function ExpenseItem(props) {
+  return (
+    <div className='expense-item'>
+      <div>{props.date.toISOString()}</div>
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+        <div className='expense-item__price'>${props.amount}</div>
+      </div>
+    </div>
+  );
+}
+
+Props is a super important concept because it allows you to make your components reusable, and it allows you to pass data from another component to this component.
+So props are not limited to dynamically set values even we set static values
+
+Adding "normal" JavaScript Logic to Components
+    Now we want to display date as calendar like look, for that we wanna extract month, year and day from the incoming date (ie) props.date using built-in method called toLocaleString which is accessible on all date objects in JavaScript 
+
+function ExpenseItem(props) {
+  const month = props.date.toLocaleString('en-US', { month: 'long' });
+  const day = props.date.toLocaleString('en-US', { day: '2-digit' });
+  const year = props.date.getFullYear();
+
+  return (
+    <div className='expense-item'>
+      <div>
+        <div>{month}</div>
+        <div>{year}</div>
+        <div>{day}</div>
+      </div>
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+        <div className='expense-item__price'>${props.amount}</div>
+      </div>
+    </div>
+  );
+}
+
+Splitting Components into Multiple Components
+   But in this component here, in this ExpenseItem component, it's getting a little bit too big. We could say that this date object here, this calendar item which we wanna show on the user interface could be treated as a separate component, so we need a new component for rendering this date in this calendar item look
+  We create ExpenseDate.js which rendering the date of an expense
+
+function ExpenseDate(props) {
+  const month = props.date.toLocaleString('en-US', { month: 'long' });
+  const day = props.date.toLocaleString('en-US', { day: '2-digit' });
+  const year = props.date.getFullYear();
+
+  return (
+    <div className="expense-date">
+      <div className="expense-date__month">{month}</div>
+      <div className="expense-date__year">{year}</div>
+      <div className="expense-date__day">{day}</div>
+    </div>
+  );
+}
+
+export default ExpenseDate;
+
+   - Call this ExpenseDate component inside ExpenseItem
+
+import ExpenseDate from './ExpenseDate';
+function ExpenseItem(props) {
+  return (
+    <div className='expense-item'>
+      <ExpenseDate date={props.date} />
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+        <div className='expense-item__price'>${props.amount}</div>
+      </div>
+    </div>
+  );
+}
+
+   - Create ExpenseDate.css and import in ExpenseDate.js
+
+   -  At the moment in App.js, we rendered these four expense item components and we got our expenses stored in here. Now, I want to keep this expenses array in here, that should stay in this component. But I want you to create a new component which, in the end, is responsible for rendering these four expense items, so that these four items are no longer rendered in App component. Create Expenses.js
+
+function Expenses(props) {
+  return (
+    <div className="expenses">
+      <ExpenseItem
+        title={props.items[0].title}
+        amount={props.items[0].amount}
+        date={props.items[0].date}
+      />
+      <ExpenseItem
+        title={props.items[1].title}
+        amount={props.items[1].amount}
+        date={props.items[1].date}
+      />
+      <ExpenseItem
+        title={props.items[2].title}
+        amount={props.items[2].amount}
+        date={props.items[2].date}
+      />
+      <ExpenseItem
+        title={props.items[3].title}
+        amount={props.items[3].amount}
+        date={props.items[3].date}
+      />
+    </div>
+  );
+}
+
+export default Expenses;
+
+    - Create Expenses.css and import into Expenses.js
+    - Call <Expenses items={expenses} /> inside App.js
+
+React Composition - children props 
+    In App.js we're using Expenses, in there we are using ExpenseItem, in there we're using ExpenseDate. Generally, this approach of building a user interface from smaller building blocks is called composition
+   All these components are also just configured through props, through the date prop, the title prop, the amount prop in the case of ExpenseItem, for example. And again, that is fairly standard. You'll have a lot of these components in your React applications. Sometimes however, you wanna have a component where you don't configure everything through props but where instead you're able to pass content between the opening and closing tags of that component. 
+    If we have a look at our current output, then we see two kind of boxes or containers. We got a container around all the expense items. It has a light gray background, and rounded corners, and a slight drop shadow, which might be hard to see. And we have a container around the overall expenses list, with a darker gray background but also rounded corners and a slight drop shadow. Now, the idea behind all of these components is to have reusable building blocks also to avoid code duplication. 
+    we could extract this surrounding container div which we have both in ExpenseItem and Expenses.js and extract the styles they have in common, like rounded corners and a drop shadow, into a separate component. 
+
+1. Create Card.js 
+
+function Card() {
+    return (
+        <div className="card">
+            
+        </div>
+    )
+}
+
+export default Card
+
+2. Create Card.css and import in Card.js, cut box-shadow and a border-radius in Expenses.css and paste inside Card.css
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+3. In ExpenseItem.js, under expense-item class remove box-shadow and a border-radius
+
+4. Now we got this card container component you could say, which should act as a shell around either our ExpenseItem content or our Expenses content. So we call Card in ExpenseItem component
+
+  function ExpenseItem(props) {
+    return (
+      <Card className='expense-item'>
+        <ExpenseDate date={props.date} />
+        <div className='expense-item__description'>
+          <h2>{props.title}</h2>
+          <div className='expense-item__price'>${props.amount}</div>
+        </div>
+      </Card>
+    );
+  }
+
+5. In Card.js we again, when I accept props. And that's a prop which value I wanna output between the opening and closing tag of this div, inside of the card component function. It's the props children prop. Children is a reserved name.
+     So in this case, this content between the opening and closing card tag, that is what will be available on props children inside of that card. So here we could add a classes constant which is card as a default class which is always applied, white space plus props.className. So now anything we receive as a class name from outside is added to that string. And here we can then dynamically point at this class, this constant. 
+
+function Card(props) {
+  const classes = 'card ' + props.className;
+  
+  return <div className={classes}>{props.children}</div>;
+}
+
+
+6. In Expenses.js, instead of using div we can use Card component
+
+<Card className="expenses">
+
+</Card>
+
+When we save and look browser, we will get rounded container as well
+  
